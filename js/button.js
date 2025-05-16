@@ -77,10 +77,38 @@ const columnMapping = {
   ptctotal: "Percent of total population"
 };
 
+// Custom function to format numbers with spaces and 3 decimal places
+function formatNumber(value) {
+  // Remove commas from the input string
+  const cleanValue = value.replace(/,/g, '');
+  
+  // Check if the cleaned value is a number
+  const num = parseFloat(cleanValue);
+  if (isNaN(num)) {
+    return value; // Return raw value if not a number (e.g., "N/A")
+  }
+
+  // Check if the number has a decimal part (e.g., "12.345")
+  const hasDecimal = cleanValue.includes('.');
+  
+  if (hasDecimal) {
+    // Format to 3 decimal places
+    const formattedDecimal = num.toFixed(3);
+    // Split into integer and decimal parts
+    const [integerPart, decimalPart] = formattedDecimal.split('.');
+    // Add spaces to integer part (e.g., "1234567" → "1 234 567")
+    const spacedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return `${spacedInteger}.${decimalPart}`;
+  } else {
+    // For integers, add spaces as thousand separators
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  }
+}
+
 let data = [];
 try {
   data = await d3.csv("data/WRP_global.csv");
-  console.log("CSV columns:", Object.keys(data[0])); // Log columns for verification
+  console.log("CSV columns:", Object.keys(data[0]));
   console.log(data);
   data.forEach(row => {
     console.log(row.year, row.chrstprot, row.chrstcat);
@@ -112,10 +140,11 @@ document.getElementById("show-data-btn").addEventListener("click", (event) => {
                  <th>Value</th>
                </tr>`;
     entries.forEach(([key, value]) => {
-      const fullName = columnMapping[key] || key; // Use full name or fallback
-      const formattedValue = isNaN(value.replace(/,/g, '')) ? value : parseInt(value.replace(/,/g, '')).toLocaleString();
+      const fullName = columnMapping[key] || key;
+      const displayName = fullName.includes("Total") ? `<strong>${fullName}</strong>` : fullName;
+      const formattedValue = formatNumber(value);
       html += `<tr>
-                 <td>${fullName}</td>
+                 <td>${displayName}</td>
                  <td>${formattedValue}</td>
                </tr>`;
     });
