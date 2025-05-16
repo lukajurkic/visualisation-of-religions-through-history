@@ -132,7 +132,7 @@ document.getElementById("show-data-btn").addEventListener("click", (event) => {
   if (!row) {
     html += `<strong>No data available for ${year}</strong>`;
   } else {
-    const entries = Object.entries(row).filter(([key]) => key !== "year");
+    const entries = Object.entries(row).filter(([key]) => key !== "year" && key !== "version");
     html += `<strong>Data for Year ${year}</strong>
              <table>
                <tr>
@@ -142,7 +142,7 @@ document.getElementById("show-data-btn").addEventListener("click", (event) => {
     entries.forEach(([key, value]) => {
       const fullName = columnMapping[key] || key;
       const displayName = fullName.includes("Total") ? `<strong>${fullName}</strong>` : fullName;
-      const formattedValue = formatNumber(value);
+      const formattedValue = fullName.includes("Total") ? `<strong>${formatNumber(value)}</strong>` : formatNumber(value);
       html += `<tr>
                  <td>${displayName}</td>
                  <td>${formattedValue}</td>
