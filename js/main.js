@@ -10,7 +10,7 @@ import { initializeSlider } from "./slider.js";
   const viewToggle = d3.select("#map-view-switch");
   const viewLabel = d3.select("#view-label");
 
-  const width = window.innerWidth;
+  const width = window.innerWidth * 0.7; // Adjust for sidebar (~70% of viewport)
   const height = window.innerHeight * 0.8;
   svg.attr("width", width).attr("height", height);
 
@@ -19,21 +19,18 @@ import { initializeSlider } from "./slider.js";
   const zoom = initializeZoom(svg, g, resetBtn, width, height);
   initializeSlider(slider, yearDisplay);
 
-  // Initialize view state (default: countries)
   let viewState = "countries";
+  viewLabel.text("Countries");
 
-  // Function to update map based on view state
   async function updateMap() {
-    g.selectAll("*").remove(); // Clear existing paths
+    g.selectAll("*").remove();
     await initializeMap(g, svg, width, height, zoom, resetBtn, viewState);
   }
 
-  // Initial map render
   await updateMap();
 
-  // Handle toggle switch
   viewToggle.on("change", () => {
-    viewState = viewToggle.property("checked") ? "continents" : "countries";
+    viewState = viewToggle.property("checked") ? "countries" : "continents";
     viewLabel.text(viewState === "countries" ? "Countries" : "Continents");
     updateMap();
   });

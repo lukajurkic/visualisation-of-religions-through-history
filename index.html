@@ -4,32 +4,41 @@
   <meta charset="UTF-8" />
   <title>Interactive World Map</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/toggle_switch.css" />
+  <link rel="stylesheet" href="css/reset_button.css" />
+  <link rel="stylesheet" href="css/year_slider.css" />
+  <link rel="stylesheet" href="css/show_data_button.css" />
+  <link rel="stylesheet" href="css/popup_global_data.css" />
+  <link rel="stylesheet" href="css/infobox.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-    <div id="info-box">Select a country</div>
-    <svg id="map"></svg>
-
-    <div id="controls">
+  <div class="container">
+    <div id="map-container">
+      <div id="info-box">Select a country</div>
+      <svg id="map"></svg>
+    </div>
+    <div id="sidebar">
+      <div id="controls">
         <h2 id="selected-year">Year: 1945</h2>
         <input type="range" id="year-slider" min="1945" max="2010" step="5" value="1945" />
         <br /><br />
         <button id="reset-btn" style="display:none;">Back to the World view</button>
         <div id="view-toggle">
-            <label for="map-view-switch">Map View: </label>
-            <label class="switch">
-                <input type="checkbox" id="map-view-switch" unchecked>
-                <span class="slider round"></span>
-            </label>
-            <span id="view-label">Countries</span>
+          <label for="map-view-switch">Map View: </label>
+          <label class="switch">
+            <input type="checkbox" id="map-view-switch" checked>
+            <span class="slider round"></span>
+          </label>
+          <span id="view-label">Countries</span>
         </div>
+      </div>
+      <button id="show-data-btn">Show Data</button>
     </div>
+  </div>
+  <div id="popup"></div>
 
-    <button id="show-data-btn">Show Data</button>
-    <div id="popup"></div>
-
-    <!-- Load JS modules -->
-    <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/button.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/button.js"></script>
 </body>
 </html>

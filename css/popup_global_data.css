@@ -1,0 +1,62 @@
+#popup {
+  position: fixed; /* Fixed to center on screen */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  display: none;
+  max-height: 80vh; /* Limit height to avoid overflow */
+  overflow-y: auto;
+  max-width: 500px; /* Wider for centered display */
+  width: 90%; /* Responsive width */
+  z-index: 2000; /* Above blurred background */
+}
+
+#popup table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 100%; /* Ensure table fits popup */
+}
+
+#popup th, #popup td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+#popup th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+#popup strong {
+  color: #333;
+  display: block;
+  margin-bottom: 15px;
+}
+
+#popup .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #333;
+  padding: 5px;
+}
+
+#popup .close-btn:hover {
+  color: #ff0000; /* Red on hover */
+}
+
+/* Blur effect for background */
+.container.blurred {
+  filter: blur(3px);
+  transition: filter 0.3s ease;
+}
