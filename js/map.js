@@ -17,11 +17,16 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
     .join("path")
     .attr("class", viewState === "continents" ? "continent" : "country")
     .attr("d", path)
-    .on("mouseover", function () {
+    .on("mouseover", function (event, d) {
       d3.select(this).attr("fill", "orange");
+      // Update the info-box with the country or continent name on hover
+      const name = d.properties.name || d.properties.CONTINENT || "Unknown";
+      infoBox.text(name);
     })
     .on("mouseout", function () {
       d3.select(this).attr("fill", "#eee");
+      // Reset the info-box text on mouseout
+      infoBox.text("Select a country");
     })
     .on("click", function (event, d) {
       console.log(d.properties);
