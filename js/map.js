@@ -26,7 +26,7 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
     .on("mouseout", function () {
       d3.select(this).attr("fill", "#eee");
       // Reset the info-box text on mouseout
-      infoBox.text("Select a country");
+      infoBox.text(viewState === "continents" ? "Select a continent" : "Select a country");
     })
     .on("click", function (event, d) {
       console.log(d.properties);

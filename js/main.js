@@ -9,6 +9,7 @@ import { initializeSlider } from "./slider.js";
   const yearDisplay = d3.select("#selected-year");
   const viewToggle = d3.select("#map-view-switch");
   const viewLabel = d3.select("#view-label");
+  const infoBox = d3.select("#info-box");
 
   const width = window.innerWidth * 0.7; // Adjust for sidebar (~70% of viewport)
   const height = window.innerHeight * 0.8;
@@ -24,6 +25,7 @@ import { initializeSlider } from "./slider.js";
 
   async function updateMap() {
     g.selectAll("*").remove();
+    infoBox.text(viewState === "continents" ? "Select a continent" : "Select a country");
     await initializeMap(g, svg, width, height, zoom, resetBtn, viewState);
   }
 
