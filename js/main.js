@@ -2,6 +2,7 @@ import { initializeMap } from "./map.js";
 import { initializeZoom } from "./zoom.js";
 import { initializeSlider } from "./slider.js";
 import { initRegionalData } from "./regionalData.js";
+import { initNationalData } from "./nationalData.js";
 
 (async function main() {
   const svg = d3.select("#map");
@@ -25,13 +26,19 @@ import { initRegionalData } from "./regionalData.js";
   viewLabel.text("Countries");
 
   let regionalData = [];
+  let nationalData = [];
   try {
     console.log("Loading WRP_regional.csv...");
     regionalData = await d3.csv("data/WRP_regional.csv");
     console.log("Regional data loaded:", regionalData.length, "rows");
     await initRegionalData(regionalData, infoBox, slider);
+
+    console.log("Loading WRP_national.csv...");
+    nationalData = await d3.csv("data/WRP_national.csv");
+    console.log("National data loaded:", nationalData.length, "rows");
+    await initNationalData(nationalData, infoBox, slider);
   } catch (error) {
-    console.error("Error loading WRP_regional.csv:", error);
+    console.error("Error loading data:", error);
   }
 
   async function updateMap() {
@@ -52,5 +59,35 @@ import { initRegionalData } from "./regionalData.js";
     viewState = viewToggle.property("checked") ? "countries" : "continents";
     viewLabel.text(viewState === "countries" ? "Countries" : "Continents");
     updateMap();
+  });
+
+  // Update data when the year changes
+  slider.on("input", () => {
+    const year = slider.node().value;
+    if (viewState === "continents") {
+      const selected = d3.select(".continent.selected");
+      if (selected.node()) {
+        const name = selected.datum().properties.CONTINENT || "Unknown";
+        const regions = {
+          "North America": "West. Hem",
+          "South America": "West. Hem",
+          "Asia": ["Asia", "Mideast"],
+          "Australia": null,
+          "Oceania": null,
+        }[name] || name;
+        if (regions) {
+          displayRegionalData(regions, name);
+        }
+      }
+    } else {
+      const selected = d3.select(".country.selected");
+      if (selected.node()) {
+        const name = selected.datum().properties.name || "Unknown";
+        const countryCode = countryCodeMap[name] || name;
+        if (countryCode) {
+          displayNationalData(countryCode, name);
+        }
+      }
+    }
   });
 })();

@@ -1,7 +1,11 @@
 export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewState) {
   let selectedContinent = null;
+  let selectedCountry = null;
 
+  // selecting which data will be loaded
   const geojsonFile = viewState === "continents" ? "data/world_map_continents.geojson" : "data/world_map.geo.json";
+
+  // loading data
   let data;
   try {
     console.log("Loading GeoJSON file:", geojsonFile);
@@ -14,12 +18,11 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
 
   const infoBox = d3.select("#info-box");
 
+  // removing antarctica from continents
   const filteredFeatures = viewState === "continents"
-    ? data.features.filter(f => f.properties.CONTINENT !== "Antarctica")
-    : data.features;
+    ? data.features.filter(f => f.properties.CONTINENT !== "Antarctica"): data.features;
 
-  console.log("Filtered features:", filteredFeatures);
-
+  // loading map data for displaying
   const projection = d3.geoNaturalEarth1();
   projection.fitSize([width, height], { type: "FeatureCollection", features: filteredFeatures });
   const path = d3.geoPath().projection(projection);
@@ -32,14 +35,14 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
     .attr("d", path)
     .on("mouseover", function (event, d) {
       d3.select(this).attr("fill", "orange");
-      if (!selectedContinent) {
+      if (!selectedContinent && !selectedCountry) {
         const name = d.properties.name || d.properties.CONTINENT || "Unknown";
         infoBox.text(name);
       }
     })
     .on("mouseout", function (event, d) {
       d3.select(this).attr("fill", "#eee");
-      if (!selectedContinent) {
+      if (!selectedContinent && !selectedCountry) {
         infoBox.text(viewState === "continents" ? "Select a continent" : "Select a country");
       }
     })
@@ -59,6 +62,7 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
 
       if (viewState === "continents") {
         selectedContinent = name;
+        selectedCountry = null;
         if (regions) {
           displayRegionalData(regions, name);
         } else {
@@ -67,6 +71,14 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
         resetBtn.style("display", "none");
       } else {
         selectedContinent = null;
+        selectedCountry = name
+        const countryCode = countryCodeMap[name] || name;
+        if(countryCode) {
+          displayNationalData(countryCode, name);
+        } else {
+          infoBox.text(`No data available for ${name}`);
+        }
+        
         const [[x0, y0], [x1, y1]] = path.bounds(d);
         const dx = x1 - x0;
         const dy = y1 - y0;
@@ -91,9 +103,12 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
   svg.on("click", function (event) {
     if (!d3.select(event.target).classed("continent") && !d3.select(event.target).classed("country")) {
       selectedContinent = null;
+      selectedCountry = null;
       infoBox.text(viewState === "continents" ? "Select a continent" : "Select a country");
     }
   });
 }
 
 import { displayRegionalData } from './regionalData.js';
+import { displayNationalData} from './nationalData.js';
+import { countryCodeMap } from './utils.js';
