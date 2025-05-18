@@ -1,6 +1,7 @@
 import { initializeMap } from "./map.js";
 import { initializeZoom } from "./zoom.js";
 import { initializeSlider } from "./slider.js";
+import { initRegionalData } from "./regionalData.js";
 
 (async function main() {
   const svg = d3.select("#map");
@@ -11,7 +12,7 @@ import { initializeSlider } from "./slider.js";
   const viewLabel = d3.select("#view-label");
   const infoBox = d3.select("#info-box");
 
-  const width = window.innerWidth * 0.7; // Adjust for sidebar (~70% of viewport)
+  const width = window.innerWidth * 0.7;
   const height = window.innerHeight * 0.8;
   svg.attr("width", width).attr("height", height);
 
@@ -23,10 +24,26 @@ import { initializeSlider } from "./slider.js";
   let viewState = "countries";
   viewLabel.text("Countries");
 
+  let regionalData = [];
+  try {
+    console.log("Loading WRP_regional.csv...");
+    regionalData = await d3.csv("data/WRP_regional.csv");
+    console.log("Regional data loaded:", regionalData.length, "rows");
+    await initRegionalData(regionalData, infoBox, slider);
+  } catch (error) {
+    console.error("Error loading WRP_regional.csv:", error);
+  }
+
   async function updateMap() {
     g.selectAll("*").remove();
     infoBox.text(viewState === "continents" ? "Select a continent" : "Select a country");
-    await initializeMap(g, svg, width, height, zoom, resetBtn, viewState);
+    try {
+      console.log("Calling initializeMap...");
+      await initializeMap(g, svg, width, height, zoom, resetBtn, viewState);
+      console.log("initializeMap completed");
+    } catch (error) {
+      console.error("Error in initializeMap:", error);
+    }
   }
 
   await updateMap();

@@ -73,7 +73,9 @@ export const columnMapping = {
     nonreligpct: "Non Religious Percentage",
     othrgenpct: "Other Religions Percentage",
     sumreligpct: "Percent Religions Adherents",
-    ptctotal: "Percent of total population"
+    ptctotal: "Percent of total population",
+    totalpct: "Total Population Percentage",
+    totregpct: "Total World population"
   };
   
   // Custom function to format numbers with spaces and 3 decimal places
