@@ -2,10 +2,7 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
   let selectedContinent = null;
   let selectedCountry = null;
 
-  // selecting which data will be loaded
   const geojsonFile = viewState === "continents" ? "data/world_map_continents.geojson" : "data/world_map.geo.json";
-
-  // loading data
   let data;
   try {
     console.log("Loading GeoJSON file:", geojsonFile);
@@ -13,16 +10,18 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
     console.log("GeoJSON loaded:", data);
   } catch (error) {
     console.error("Failed to load GeoJSON:", error);
-    throw error; // Re-throw to catch in main.js
+    throw error;
   }
 
   const infoBox = d3.select("#info-box");
+  const year = d3.select("#year-slider").node().value;
 
-  // removing antarctica from continents
   const filteredFeatures = viewState === "continents"
-    ? data.features.filter(f => f.properties.CONTINENT !== "Antarctica"): data.features;
+    ? data.features.filter(f => f.properties.CONTINENT !== "Antarctica")
+    : data.features;
 
-  // loading map data for displaying
+  console.log("Filtered features:", filteredFeatures);
+
   const projection = d3.geoNaturalEarth1();
   projection.fitSize([width, height], { type: "FeatureCollection", features: filteredFeatures });
   const path = d3.geoPath().projection(projection);
@@ -71,14 +70,15 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
         resetBtn.style("display", "none");
       } else {
         selectedContinent = null;
-        selectedCountry = name
-        const countryCode = countryCodeMap[name] || name;
-        if(countryCode) {
-          displayNationalData(countryCode, name);
+        selectedCountry = name;
+        const countryCode = getCountryCode(name, year);
+        const displayName = getDisplayName(name, year);
+        if (countryCode) {
+          displayNationalData(countryCode, displayName);
         } else {
-          infoBox.text(`No data available for ${name}`);
+          infoBox.text(`No data available for ${displayName}`);
         }
-        
+
         const [[x0, y0], [x1, y1]] = path.bounds(d);
         const dx = x1 - x0;
         const dy = y1 - y0;
@@ -110,5 +110,5 @@ export async function initializeMap(g, svg, width, height, zoom, resetBtn, viewS
 }
 
 import { displayRegionalData } from './regionalData.js';
-import { displayNationalData} from './nationalData.js';
-import { countryCodeMap } from './utils.js';
+import { displayNationalData } from './nationalData.js';
+import { historicalCountryMap, getCountryCode, getDisplayName } from './utils.js';

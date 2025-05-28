@@ -61,9 +61,9 @@ import { initNationalData } from "./nationalData.js";
     updateMap();
   });
 
-  // Update data when the year changes
   slider.on("input", () => {
     const year = slider.node().value;
+    yearDisplay.text(`Year: ${year}`);
     if (viewState === "continents") {
       const selected = d3.select(".continent.selected");
       if (selected.node()) {
@@ -83,9 +83,11 @@ import { initNationalData } from "./nationalData.js";
       const selected = d3.select(".country.selected");
       if (selected.node()) {
         const name = selected.datum().properties.name || "Unknown";
-        const countryCode = countryCodeMap[name] || name;
+        const countryCode = getCountryCode(name, year);
+        const displayName = getDisplayName(name, year);
+        console.log(`Selected ${name} in ${year}: Code=${countryCode}, Display=${displayName}`);
         if (countryCode) {
-          displayNationalData(countryCode, name);
+          displayNationalData(countryCode, displayName);
         }
       }
     }

@@ -277,6 +277,87 @@ export const countryCodeMap = {
   "Zambia": "ZAM",
   "Zimbabwe": "ZIM"
 };
+
+export const historicalCountryMap = {
+  "Slovakia": { historicalCode: "CSK", dissolutionYear: 1992 },
+  "Czech Republic": { historicalCode: "CSK", dissolutionYear: 1992 },
+  "Serbia": { historicalCode: "YUG", dissolutionYear: 1991 },
+  "Croatia": { historicalCode: "YUG", dissolutionYear: 1991 },
+  "Bosnia and Herzegovina": { historicalCode: "YUG", dissolutionYear: 1991 },
+  "Montenegro": { historicalCode: "YUG", dissolutionYear: 1991 },
+  "Slovenia": { historicalCode: "YUG", dissolutionYear: 1991 },
+  "Macedonia": { historicalCode: "YUG", dissolutionYear: 1991 },
+  "Germany": { historicalCode: "DEW", dissolutionYear: 1990 }, // West Germany
+  // Add more mappings (e.g., East Germany "GDR") as needed
+};
+
+export function getCountryCode(name, year) {
+  const modernCode = countryCodeMap[name] || name;
+  const historical = historicalCountryMap[name];
+
+  if (!historical) {
+    console.log(`No historical mapping for ${name}, using modern code: ${modernCode}`);
+    return modernCode;
+  }
+
+  if (year < historical.dissolutionYear) {
+    console.log(`Year ${year} < dissolution ${historical.dissolutionYear} for ${name}, using historical code: ${historical.historicalCode}`);
+    return historical.historicalCode;
+  }
+
+  // At or after dissolution, check for modern data first
+  const modernDataExists = window.nationalData && window.nationalData.hasDataForCountry(modernCode, year);
+  console.log(`Checking modern data for ${modernCode} in ${year}: ${modernDataExists}`);
+
+  if (modernDataExists) {
+    console.log(`Modern data exists for ${modernCode} in ${year}, using modern code`);
+    return modernCode;
+  }
+
+  // Fallback to historical data if modern data isn't available
+  const historicalDataExists = window.nationalData && window.nationalData.hasDataForCountry(historical.historicalCode, year);
+  console.log(`Checking historical data for ${historical.historicalCode} in ${year}: ${historicalDataExists}`);
+
+  if (historicalDataExists) {
+    console.log(`No modern data, using historical code ${historical.historicalCode} for ${name} in ${year}`);
+    return historical.historicalCode;
+  }
+
+  console.log(`No data available for ${name} in ${year}, defaulting to modern code: ${modernCode}`);
+  return modernCode;
+}
+
+export function getDisplayName(name, year) {
+  const historical = historicalCountryMap[name];
+  if (!historical) {
+    return name;
+  }
+
+  if (year < historical.dissolutionYear) {
+    return `${name} (ex. ${historicalCodeToName(historical.historicalCode)})`;
+  }
+
+  const modernCode = countryCodeMap[name] || name;
+  const modernDataExists = window.nationalData && window.nationalData.hasDataForCountry(modernCode, year);
+  const historicalDataExists = window.nationalData && window.nationalData.hasDataForCountry(historical.historicalCode, year);
+
+  if (historicalDataExists && !modernDataExists) {
+    return `${name} (ex. ${historicalCodeToName(historical.historicalCode)})`;
+  }
+
+  return name;
+}
+
+// Helper function to map historical codes to names (expand as needed)
+function historicalCodeToName(code) {
+  const historicalNames = {
+    "CSK": "Czechoslovakia",
+    "YUG": "Yugoslavia",
+    "DEW": "West Germany",
+    "GDR": "East Germany",
+  };
+  return historicalNames[code] || code;
+}
   
   // Custom function to format numbers with spaces and 3 decimal places
  export function formatNumber(value) {

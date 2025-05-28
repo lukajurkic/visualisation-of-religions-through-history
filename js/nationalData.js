@@ -7,6 +7,18 @@ export async function initNationalData(data, infoBoxElement, sliderElement) {
   nationalData = data;
   infoBox = infoBoxElement;
   slider = sliderElement;
+  window.nationalData = { hasDataForCountry }; // Ensure this is set for utils.js
+  console.log("National data sample:", nationalData.slice(0, 5)); // Log sample data
+}
+
+export function hasDataForCountry(countryCode, year) {
+  if (!nationalData || nationalData.length === 0) {
+    console.log(`No national data available for ${countryCode} in ${year}`);
+    return false;
+  }
+  const hasData = nationalData.some(d => d.name === countryCode && d.year === year.toString());
+  console.log(`Checking data for ${countryCode} in ${year}: ${hasData}`);
+  return hasData;
 }
 
 export function displayNationalData(countryCode, displayName) {
@@ -24,11 +36,11 @@ export function displayNationalData(countryCode, displayName) {
   }
 
   const row = dataForCountry[0];
-  let html = `<h4>${displayName}</h4>
+  let html = `<h4>${displayName} (${year})</h4>
              <table style="font-size: 12px;">
                <tr><th>Metric</th><th>Value</th></tr>`;
 
-  const entries = Object.entries(row).filter(([key]) => key !== "year" && key !== "state" && key !== "name" && key !== "version");
+  const entries = Object.entries(row).filter(([key]) => key !== "year" && key !== "state" && key !== "name" && key !== "Version");
   entries.forEach(([key, value]) => {
     const numValue = parseFloat(value.replace(/,/g, ''));
     if (!isNaN(numValue) && numValue !== 0) {
@@ -42,4 +54,12 @@ export function displayNationalData(countryCode, displayName) {
   html += '</table>';
 
   infoBox.html(html);
+}
+
+export function getCountryCode(name, year) {
+  return window.utils.getCountryCode(name, year);
+}
+
+export function getDisplayName(name, year) {
+  return window.utils.getDisplayName(name, year);
 }

@@ -3,13 +3,8 @@ import { columnMapping, formatNumber } from './utils.js';
 let data = [];
 try {
   data = await d3.csv("data/WRP_global.csv");
-  // console.log("CSV columns:", Object.keys(data[0]));
-  // console.log(data);
-  // data.forEach(row => {
-  //   console.log(row.year, row.chrstprot, row.chrstcat);
-  // });
 } catch (error) {
-  // console.error("Error loading CSV:", error);
+  console.error("Error loading CSV:", error);
 }
 
 document.getElementById("year-slider").addEventListener("input", () => {
