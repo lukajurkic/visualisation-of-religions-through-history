@@ -13,7 +13,7 @@
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-  <div class="title">
+  <div style="text-align: center; margin-top: 20px;">
     <h1>Religious Division in the Past</h1>
   </div>
   <div class="container">
@@ -37,6 +37,42 @@
         </div>
       </div>
       <button id="show-data-btn">Show Gloabal Data</button>
+      <div style="margin-top: 10px;">
+        <select id="religion-dropdown">
+          <option value="">Select a Religion</option>
+          <option value="chrstprot">Christianity Protestants</option>
+          <option value="chrstcat">Christianity Roman Catholics</option>
+          <option value="chrstorth">Christianity Eastern Orthodox</option>
+          <option value="chrstang">Christianity Anglican</option>
+          <option value="chrstothr">Christianity Others</option>
+          <option value="judorth">Judaism Orthodox</option>
+          <option value="jdcons">Judaism Conservatives</option>
+          <option value="judref">Judaism Reform</option>
+          <option value="judothr">Judaism Others</option>
+          <option value="islmsun">Islam Sunni</option>
+          <option value="islmshi">Islam Shia</option>
+          <option value="islmibd">Islam Ibadi</option>
+          <option value="islmnat">Islam Nation of Islam</option>
+          <option value="islmalw">Islam Alawite</option>
+          <option value="islmahm">Islam Ahmadiyya</option>
+          <option value="islmothr">Islam Other</option>
+          <option value="budmah">Buddhism Mahayana</option>
+          <option value="budthr">Buddhism Theravada</option>
+          <option value="budothr">Buddhism Other</option>
+          <option value="zorogen">Zoroastrian Total</option>
+          <option value="hindgen">Hindu Total</option>
+          <option value="sikhgen">Sikh Total</option>
+          <option value="shntgen">Shinto Total</option>
+          <option value="bahgen">Baha'i Total</option>
+          <option value="taogen">Taoism Total</option>
+          <option value="jaingen">Jain Total</option>
+          <option value="confgen">Confucianism Total</option>
+          <option value="syncgen">Syncretic Religions Total</option>
+          <option value="anmgen">Animist Religions Total</option>
+          <option value="nonrelig">Non Religious Total</option>
+          <option value="othrgen">Other Religions Total</option>
+        </select>
+      </div>
     </div>
   </div>
   <div id="popup"></div>
@@ -47,3 +83,4 @@
   <script type="module" src="js/nationalData.js"></script>
 </body>
 </html>
+```

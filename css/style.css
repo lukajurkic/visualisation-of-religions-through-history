@@ -77,3 +77,30 @@ svg#map {
   fill: orange;
   cursor: pointer;
 }
+
+/* Dropdown Styling */
+#religion-dropdown {
+  width: 100%; /* Match the width of the sidebar content */
+  max-width: 280px; /* Slightly less than sidebar's max-width to account for padding */
+  padding: 8px; /* Consistent padding for a clean look */
+  font-family: Arial, sans-serif; /* Match the page's font */
+  font-size: 14px; /* Consistent with typical UI elements */
+  border: 1px solid #999; /* Match the map's stroke color for consistency */
+  border-radius: 5px; /* Rounded corners to match toggle switch and button */
+  background-color: white; /* White background to match the map */
+  color: #333; /* Dark text for readability */
+  cursor: pointer; /* Indicate interactivity */
+  transition: border-color 0.3s ease; /* Smooth transition for hover/focus */
+}
+
+#religion-dropdown:hover,
+#religion-dropdown:focus {
+  border-color: orange; /* Orange border on hover/focus to match map hover effect */
+  outline: none; /* Remove default focus outline */
+}
+
+#religion-dropdown option {
+  padding: 5px; /* Padding for dropdown options */
+  background-color: white; /* White background for options */
+  color: #333; /* Dark text for readability */
+}
