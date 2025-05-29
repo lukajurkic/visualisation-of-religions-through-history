@@ -15,17 +15,27 @@
 <body>
   <div style="text-align: center; margin-top: 20px;">
     <h1>Religious Division in the Past</h1>
-    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px;">
-      <a href="#section1" style="text-decoration: none; color: #333;">Link 1</a>
-      <a href="#section2" style="text-decoration: none; color: #333;">Link 2</a>
-      <a href="#section3" style="text-decoration: none; color: #333;">Link 3</a>
-      <a href="#section4" style="text-decoration: none; color: #333;">Link 4</a>
+    <div class="menu">
+      <div class="dropdown">
+        <a href="#section1" style="text-decoration: none; color: #333;">Link 1</a>
+        <div class="dropdown-content">
+          <a href="#section1">Link 1.1</a>
+          <a href="#section2">Link 1.2</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="#section3" style="text-decoration: none; color: #333;">Link 2</a>
+        <div class="dropdown-content">
+          <a href="#section3">Link 2.1</a>
+          <a href="#section4">Link 2.2</a>
+        </div>
+      </div>
     </div>
   </div>
   <div class="container">
     <div id="map-container">
       <div id="info-box">Select a country</div>
-      <svg id="map"></svg>
+      <svg id="map" style="border: 2px solid #999;"></svg>
     </div>
     <div id="sidebar">
       <div id="controls">
@@ -83,7 +93,7 @@
   </div>
   <div id="popup"></div>
 
-  <!-- Add sections with subtitles -->
+  <!-- Sections with subtitles -->
   <div style="margin: 20px;">
     <section id="section1">
       <h2 style="text-align: center;">Section 1</h2>

@@ -106,26 +106,45 @@ svg#map {
   color: #333; /* Dark text for readability */
 }
 
-.menu a {
-  padding: 8px 16px;
-  border: 1px solid #999;
-  border-radius: 5px;
-  color: #333;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.menu a:hover {
-  background-color: #f0f0f0;
-  color: #000;
-}
-
 .menu {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 10px;
-}
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    .menu .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .menu .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 120px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border: 1px solid #999;
+      border-radius: 4px;
+    }
+
+    .menu .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .menu a {
+      padding: 8px 16px;
+      text-decoration: none;
+      color: #333;
+      display: block;
+    }
+
+    .menu a:hover {
+      background-color: #f0f0f0;
+      color: #000;
+    }
 
 section {
   margin: 40px 0;
