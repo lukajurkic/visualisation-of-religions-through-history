@@ -27,6 +27,7 @@ svg#map {
   height: 80vh;
   background-color: white;
   display: block;
+  border: 2px solid #999; /* Added border */
 }
 
 #sidebar {
@@ -103,4 +104,37 @@ svg#map {
   padding: 5px; /* Padding for dropdown options */
   background-color: white; /* White background for options */
   color: #333; /* Dark text for readability */
+}
+
+.menu a {
+  padding: 8px 16px;
+  border: 1px solid #999;
+  border-radius: 5px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.menu a:hover {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+section {
+  margin: 40px 0;
+  padding: 20px;
+  border-top: 1px solid #999;
+}
+
+section h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
