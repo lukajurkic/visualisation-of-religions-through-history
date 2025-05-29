@@ -5,12 +5,12 @@
   <title>Interactive World Map</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/style_section1.css" />
-  <!-- <link rel="stylesheet" href="css/toggle_switch.css" />
-  <link rel="stylesheet" href="css/reset_button.css" />
-  <link rel="stylesheet" href="css/year_slider.css" />
-  <link rel="stylesheet" href="css/show_data_button.css" />
+  <!-- <link rel="stylesheet" href="css/toggle_switch.css" /> -->
+  <!-- <link rel="stylesheet" href="css/reset_button.css" /> -->
+  <!-- <link rel="stylesheet" href="css/year_slider.css" /> -->
+  <!-- <link rel="stylesheet" href="css/show_data_button.css" /> -->
   <link rel="stylesheet" href="css/popup_global_data.css" />
-  <link rel="stylesheet" href="css/infobox.css" /> -->
+  <!-- <link rel="stylesheet" href="css/infobox.css" /> -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div>
-        <a href="#section3">Link 3</a>
+        <a href="#" id="show-data-btn">Link 3</a>
       </div>
     </div>
   </div>
@@ -95,10 +95,9 @@
       </div>
     </div>
   </div> -->
-  <div id="popup"></div>
-
+  
   <!-- Sections with subtitles -->
-  <div style="margin: 20px;">
+  <div class="container" style="margin: 20px;">
     <section id="section1">
       <h2 style="text-align: center;">Section 1</h2>
       <div class="map-container">
@@ -117,10 +116,11 @@
       <h2 style="text-align: center;">Section 4</h2>
     </section>
   </div>
+  <div id="popup"></div>
 
   <!-- <script type="module" src="js/main.js"></script> -->
   <script type="module" src="js/main.js"></script>
-  <!-- <script type="module" src="js/button.js"></script> -->
+  <script type="module" src="js/button.js"></script>
   <!-- <script type="module" src="js/regionalData.js"></script> -->
   <!-- <script type="module" src="js/nationalData.js"></script> -->
 </body>

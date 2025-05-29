@@ -7,13 +7,14 @@ try {
   console.error("Error loading CSV:", error);
 }
 
-document.getElementById("year-slider").addEventListener("input", () => {
-  document.getElementById("selected-year").textContent = `Year: ${document.getElementById("year-slider").value}`;
-});
+// document.getElementById("year-slider").addEventListener("input", () => {
+//   document.getElementById("selected-year").textContent = `Year: ${document.getElementById("year-slider").value}`;
+// });
 
 document.getElementById("show-data-btn").addEventListener("click", (event) => {
   event.stopPropagation();
-  const year = document.getElementById("year-slider").value;
+  // const year = document.getElementById("year-slider").value;
+  const year = 1945;
   const popup = d3.select("#popup");
   const container = d3.select(".container");
 
