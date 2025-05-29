@@ -46,8 +46,14 @@ import { initNationalData } from "./nationalData.js";
     infoBox.text(viewState === "continents" ? "Select a continent" : "Select a country");
     try {
       console.log("Calling initializeMap...");
-      await initializeMap(g, svg, width, height, zoom, resetBtn, viewState);
+      const { updateMapColors } = await initializeMap(g, svg, width, height, zoom, resetBtn, viewState);
       console.log("initializeMap completed");
+
+      // Add event listener for religion dropdown
+      d3.select("#religion-dropdown").on("change", function () {
+        const religionKey = this.value || null;
+        updateMapColors(religionKey, nationalData, regionalData);
+      });
     } catch (error) {
       console.error("Error in initializeMap:", error);
     }
