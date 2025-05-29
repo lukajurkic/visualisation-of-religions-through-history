@@ -1,3 +1,7 @@
+/*==================================================
+  General styles 
+  ==================================================
+*/
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
@@ -17,18 +21,7 @@ body {
   transition: filter 0.3s ease;
 }
 
-#map-container {
-  flex: 3;
-  position: relative;
-}
 
-svg#map {
-  width: 100%;
-  height: 80vh;
-  background-color: white;
-  display: block;
-  border: 2px solid #999;
-}
 
 #sidebar {
   flex: 1;
@@ -57,54 +50,10 @@ svg#map {
   }
 }
 
-.country {
-  fill: #eee;
-  stroke: #999;
-  stroke-width: 0.5;
-}
-
-.country:hover {
-  fill: orange;
-  cursor: pointer;
-}
-
-.continent {
-  fill: #eee;
-  stroke: #666;
-  stroke-width: 1;
-}
-
-.continent:hover {
-  fill: orange;
-  cursor: pointer;
-}
-
-#religion-dropdown {
-  width: 100%;
-  max-width: 280px;
-  padding: 8px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  border: 1px solid #999;
-  border-radius: 5px;
-  background-color: white;
-  color: #333;
-  cursor: pointer;
-  transition: border-color 0.3s ease;
-}
-
-#religion-dropdown:hover,
-#religion-dropdown:focus {
-  border-color: orange;
-  outline: none;
-}
-
-#religion-dropdown option {
-  padding: 5px;
-  background-color: white;
-  color: #333;
-}
-
+/*==================================================
+  Menu styles 
+  ==================================================
+*/
 .menu {
   display: flex;
   justify-content: center;
@@ -141,10 +90,15 @@ svg#map {
 }
 
 .menu a:hover {
-  background-color: #f0f0f0;
+  background-color: #352b2b;
   color: #000;
 }
 
+
+/*==================================================
+  Section styles 
+  ==================================================
+*/
 section {
   margin: 40px 0;
   padding: 20px;
@@ -155,19 +109,4 @@ section h2 {
   color: #333;
   font-size: 24px;
   margin-bottom: 10px;
-}
-
-.map-container {
-  position: relative;
-  width: 100%;
-  max-width: 1500px; /* Increased max-width to accommodate larger map */
-  margin: 0 auto;
-}
-
-.map-container svg {
-  width: 100%;
-  height: 100vh; /* Increased to 60vh to match JavaScript */
-  background-color: white;
-  display: block;
-  border: 2px solid #999;
 }
