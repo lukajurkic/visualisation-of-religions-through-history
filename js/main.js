@@ -21,13 +21,8 @@ import { displayContinentsMap } from "./map_continents.js";
     zoomToCountry(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height);
   });
   // Reset button functionality
-  resetBtnCountries.on("click", () => {
-    console.log("Reset button clicked");
-    zoomGroup.transition()
-      .duration(750)
-      .attr("transform", ""); // Reset transform
-    resetBtnCountries.style("display", "none");
-    infoBoxCountries.text("Select a country");
+  resetBtnCountries.on("click", function(event, d) {
+    resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
   });
 })();
 
@@ -51,4 +46,12 @@ function zoomToCountry(event, d, infoBoxCountries, resetBtnCountries, zoomGroup,
     // Update info box and show reset button
     infoBoxCountries.text(d.properties.name || "Unknown Country");
     resetBtnCountries.style("display", "block");
+}
+
+function resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries) {
+  zoomGroup.transition()
+      .duration(750)
+      .attr("transform", ""); // Reset transform
+    resetBtnCountries.style("display", "none");
+    infoBoxCountries.text("Select a country");
 }
