@@ -1,21 +1,42 @@
 import { displayCountriesMap } from "./map_countries.js";
 import { displayContinentsMap } from "./map_continents.js";
+import { initializeSlider } from "./slider.js";
+
 
 (async function main2() {
+  /*==================================================
+    Fetching the elements
+    ==================================================
+  */
   const svgCountries = d3.select("#map-countries");
   const svgContinents = d3.select("#map-continents");
   const resetBtnCountries = d3.select("#reset-btn-countries");
   const infoBoxCountries = d3.select("#info-box-countries");
+   const slider = d3.select("#year-slider");
+  const yearDisplay = d3.select("#selected-year");
 
+  /*==================================================
+    Size calculating
+    ==================================================
+  */
   const height = window.innerHeight * 0.8;
   const width = height * 2;
   svgCountries.attr("width", width).attr("height", height);
   svgContinents.attr("width", width).attr("height", height);
 
-  // Display the maps
+  /*==================================================
+    Function calls
+    ==================================================
+  */
   const { zoomGroup, projection, paths } = await displayCountriesMap(svgCountries, width, height);
   await displayContinentsMap(svgContinents, width, height);
+  initializeSlider(slider, yearDisplay);
 
+
+  /*==================================================
+    Settgin up event listeners
+    ==================================================
+  */
   // Add click event to zoom on country
   paths.on("click", function(event, d) {
     zoomToCountry(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height);
@@ -26,6 +47,11 @@ import { displayContinentsMap } from "./map_continents.js";
   });
 })();
 
+
+/*==================================================
+    Functions
+    ==================================================
+  */
 function zoomToCountry(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height) {
   // Your zoomToCountry function logic here
   const pathElement = d3.select(event.currentTarget); // Use event.currentTarget

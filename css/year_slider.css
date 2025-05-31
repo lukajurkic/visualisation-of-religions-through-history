@@ -1,8 +1,16 @@
 #year-slider {
-    margin: 20px 0;
+    margin: 20px auto; /* Center horizontally with auto margins */
     width: 200px;
-  }
-  label {
+    display: block; /* Ensure the slider behaves as a block element for centering */
+}
+
+label {
     font-size: 16px;
     margin-right: 10px;
-  }
+}
+
+#selected-year {
+    margin: 20px auto; /* Center horizontally with auto margins */
+    width: 200px;
+    display: block; /* Ensure the slider behaves as a block element for centering */
+}
