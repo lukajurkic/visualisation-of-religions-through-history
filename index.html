@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <title>Interactive World Map</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/style_section1.css" />
+  <link rel="stylesheet" href="css/style_continents_section.css" />
+  <link rel="stylesheet" href="css/style_countries_section.css" />
   <!-- <link rel="stylesheet" href="css/toggle_switch.css" /> -->
   <!-- <link rel="stylesheet" href="css/reset_button.css" /> -->
   <!-- <link rel="stylesheet" href="css/year_slider.css" /> -->
@@ -98,17 +99,25 @@
   
   <!-- Sections with subtitles -->
   <div class="container" style="margin: 20px;">
+
     <section id="section1">
       <h2 style="text-align: center;">Section 1</h2>
       <div class="map-container">
-      <div id="info-box-section1">Select a country</div>
-      <svg id="map-section1" style="border: 2px solid #999;"></svg>
-      <button id="reset-btn-section1" style="display:none;">Back to World View</button>
-    </div>
+        <div id="info-box-countries">Select a country</div>
+        <svg id="map-countries" style="border: 2px solid #999;"></svg>
+        <button id="reset-btn-countries" style="display:none;">Back to World View</button>
+      </div>
     </section>
+    
     <section id="section2">
       <h2 style="text-align: center;">Section 2</h2>
+      <div class="map-container">
+        <div id="info-box-countries">Select a continent</div>
+        <svg id="map-continents" style="border: 2px solid #999;"></svg>
+        <button id="reset-btn-continents" style="display:none;">Back to World View</button>
+      </div>
     </section>
+
     <section id="section3">
       <h2 style="text-align: center;">Section 3</h2>
     </section>
