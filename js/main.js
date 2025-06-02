@@ -63,7 +63,7 @@ let selectedCountryName = null;
   */
   const { zoomGroup, projectionNational, nationalPaths } = await displayCountriesMap(svgCountries, width, height);
   const { projectionRegional, regionalPaths } = await displayContinentsMap(svgContinents, width, height, regionalData);
-  initializeSlider(slider, yearDisplay);
+  initializeSlider(slider, yearDisplay, 1945, 2010);
 
   /*==================================================
     Setting up event listeners

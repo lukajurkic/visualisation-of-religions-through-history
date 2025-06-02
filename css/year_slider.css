@@ -1,16 +1,9 @@
 #year-slider {
-    margin: 20px auto; /* Center horizontally with auto margins */
-    width: 200px;
-    display: block; /* Ensure the slider behaves as a block element for centering */
+  width: 100%; /* SET SLIDER WIDTH TO 90% */
+  display: block;
+  margin: 20px auto; /* CENTER SLIDER */
 }
 
-label {
-    font-size: 16px;
-    margin-right: 10px;
-}
-
-#selected-year {
-    margin: 20px auto; /* Center horizontally with auto margins */
-    width: 200px;
-    display: block; /* Ensure the slider behaves as a block element for centering */
+.year-label {
+  font-family: Arial, sans-serif;
 }
