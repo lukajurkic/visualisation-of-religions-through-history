@@ -1,4 +1,4 @@
-import { columnMapping, formatNumber } from './utils.js';
+import { columnMapping, formatNumber } from './utils.js'; // REMOVED getCountryCode AND getDisplayName IMPORTS - GROK
 
 let nationalData = [];
 let infoBox, slider;
@@ -54,12 +54,4 @@ export function displayNationalData(countryCode, displayName) {
   html += '</table>';
 
   infoBox.html(html);
-}
-
-export function getCountryCode(name, year) {
-  return window.utils.getCountryCode(name, year);
-}
-
-export function getDisplayName(name, year) {
-  return window.utils.getDisplayName(name, year);
 }
