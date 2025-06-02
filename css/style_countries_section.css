@@ -13,13 +13,13 @@
 .map-container {
   position: relative;
   width: 100%;
-  max-width: none; /* REMOVE MAX-WIDTH TO ALLOW FULL FLEX WIDTH */
-  margin: 0; /* REMOVE AUTO MARGIN TO PREVENT CENTERING */
+  max-width: none; 
+  margin: 0;
 }
 
 .map-container svg {
-  width: 66.67%;
-  height: 70vh; /* MATCH JAVASCRIPT HEIGHT (window.innerHeight * 0.8) */
+  width: 100%;
+  height: 100%;
   background-color: white;
   display: block;
   border: 2px solid #999;

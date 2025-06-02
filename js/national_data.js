@@ -38,7 +38,7 @@ export function displayNationalData(countryCode, displayName) {
   const row = dataForCountry[0];
   let html = `<h4>${displayName} (${year})</h4>
              <table style="font-size: 12px;">
-               <tr><th>Metric</th><th>Value</th></tr>`;
+               <tr><th>Religion</th><th>Value</th></tr>`;
 
   const entries = Object.entries(row).filter(([key]) => key !== "year" && key !== "state" && key !== "name" && key !== "Version");
   entries.forEach(([key, value]) => {
