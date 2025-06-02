@@ -6,6 +6,9 @@ import { initRegionalData, displayRegionalData } from "./regional_data.js";
 import { getCountryCode, getDisplayName, regionMap } from "./utils.js";
 import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
 
+let selectedCountryCode = null;
+let selectedCountryName = null;
+
 (async function main() {
   /*==================================================
     Variables
@@ -13,6 +16,7 @@ import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
   */
   let nationalData = [];
   let regionalData = [];
+  
 
   /*==================================================
     Fetching the elements
@@ -99,6 +103,19 @@ import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
     }
   });
 
+   slider.on("input", function () {
+    const year = this.value;
+      yearDisplay.text("Year: " + year);
+      if (selectedCountryCode && selectedCountryName) {
+      // UPDATE GRAPH
+      drawGraph(selectedCountryCode, year);
+      // UPDATE INFOBOX
+      displayNationalData(selectedCountryCode, selectedCountryName, year);
+    } else {
+      console.warn("NO COUNTRY SELECTED, SKIPPING GRAPH AND INFOBOX UPDATE");
+    }
+    });
+
 })();
 
   /*==================================================
@@ -127,6 +144,8 @@ function processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries
   const countryName = d.properties.name || "Unknown Country";
   const countryCode = getCountryCode(countryName, year);
   const displayName = getDisplayName(countryName, year);
+  selectedCountryCode = countryCode;
+  selectedCountryName = displayName;
   displayNationalData(countryCode, displayName);
   drawGraph(countryCode, year);
   resetBtnCountries.style("display", "block");
@@ -136,4 +155,6 @@ function resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries) {
   zoomGroup.transition().duration(750).attr("transform", ""); // Reset transform
   resetBtnCountries.style("display", "none");
   infoBoxCountries.text("Select a country");
+  selectedCountryCode = null;
+  selectedCountryName = null;
 }
