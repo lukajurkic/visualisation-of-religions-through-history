@@ -77,7 +77,13 @@ export const columnMapping = {
     totalpct: "Total Population Percentage",
     totregpct: "Total World population"
   };
-
+export const regionMap = {
+  "North America": "West. Hem",
+  "South America": "West. Hem",
+  "Asia": ["Asia", "Mideast"],
+  "Australia": null,
+  "Oceania": null,
+};
 export const countryCodeMap = {
   "Afghanistan": "AFG",
   "Albania": "ALB",

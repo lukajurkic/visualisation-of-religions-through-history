@@ -1,15 +1,17 @@
 import { displayCountriesMap } from "./map_countries.js";
 import { displayContinentsMap } from "./map_continents.js";
 import { initializeSlider } from "./slider.js";
-import { initNationalData, displayNationalData } from "./national_data.js"; // REMOVED getCountryCode AND getDisplayName FROM HERE - GROK
-import { getCountryCode, getDisplayName, columnMapping, formatNumber } from "./utils.js"; // IMPORT UTILS FUNCTIONS DIRECTLY - GROK
+import { initNationalData, displayNationalData } from "./national_data.js";
+import { initRegionalData, displayRegionalData } from "./regional_data.js";
+import { getCountryCode, getDisplayName, regionMap, columnMapping, formatNumber } from "./utils.js";
 
-(async function main2() {
+(async function main() {
   /*==================================================
     Variables
     ==================================================
   */
   let nationalData = [];
+  let regionalData = [];
 
   /*==================================================
     Fetching the elements
@@ -19,6 +21,8 @@ import { getCountryCode, getDisplayName, columnMapping, formatNumber } from "./u
   const svgContinents = d3.select("#map-continents");
   const resetBtnCountries = d3.select("#reset-btn-countries");
   const infoBoxCountries = d3.select("#info-box-countries");
+  const resetBtnContinents = d3.select("#reset-btn-continents");
+  const infoBoxContinents = d3.select("#info-box-continents");
   const slider = d3.select("#year-slider");
   const yearDisplay = d3.select("#selected-year");
 
@@ -32,47 +36,66 @@ import { getCountryCode, getDisplayName, columnMapping, formatNumber } from "./u
   svgContinents.attr("width", width).attr("height", height);
 
   /*==================================================
-    Function calls and initialization of data
+    Data initialization
     ==================================================
   */
-  // LOAD NATIONAL DATA FIRST - GROK
   try {
     nationalData = await d3.csv("data/WRP_national.csv");
-    await initNationalData(nationalData, infoBoxCountries, slider); // FIXED TYPO FROM infoBox1 TO infoBoxCountries - GROK
+    regionalData = await d3.csv("data/WRP_regional.csv");
+    await initNationalData(nationalData, infoBoxCountries, slider);
+    await initRegionalData(regionalData, infoBoxContinents, slider);
   } catch (error) {
     console.error("Error loading data:", error);
   }
 
-  const { zoomGroup, projection, paths } = await displayCountriesMap(svgCountries, width, height, nationalData); // PASS nationalData TO displayCountriesMap - GROK
-  await displayContinentsMap(svgContinents, width, height);
+  /*==================================================
+    Function calls
+    ==================================================
+  */
+  const { zoomGroup, projectionNational, nationalPaths } = await displayCountriesMap(svgCountries, width, height);
+  const { projection, regionalPaths } = await displayContinentsMap(svgContinents, width, height, regionalData);
   initializeSlider(slider, yearDisplay);
 
   /*==================================================
     Setting up event listeners
     ==================================================
   */
-  // Add click event to zoom on country
-  paths.on("click", function(event, d) {
-    console.log("Country clicked:", d.properties.name || "Unknown Country"); // LOG CLICK EVENT - GROK
-    zoomToCountry(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider);
+  nationalPaths.on("click", function(event, d) {
+    event.stopPropagation();
+    zoomAndDisplayCountryData(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider);
   });
 
-  // Reset button functionality
-  resetBtnCountries.on("click", function(event, d) {
-    resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
+  regionalPaths.on("click", function(event, d) {
+    event.stopPropagation();
+    const continentName = d.properties.CONTINENT || "Unknown Continent";
+    const regions = regionMap[continentName] || continentName;
+    displayRegionalData(regions, infoBoxContinents);
   });
+
+  resetBtnCountries.on("click", function(event, d) {resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);});
+
+  svgCountries.on("click", function(event) {
+    if (event.target.tagName === "svg" || event.target.classList.contains("zoom-group")) {
+      resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
+    }
+  });
+
+  svgContinents.on("click", function(event) {
+    if (event.target.tagName === "svg") {
+      resetBtn(svgContinents, resetBtnContinents, infoBoxContinents);
+    }
+  });
+
 })();
 
-/*==================================================
+  /*==================================================
     Functions
     ==================================================
   */
-function zoomToCountry(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider) {
-  // ZOOM TO COUNTRY LOGIC - GROK
-  console.log("Executing zoomToCountry for:", d.properties.name); // LOG FUNCTION ENTRY - GROK
+function zoomAndDisplayCountryData(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider) {
+  
   const pathElement = d3.select(event.currentTarget); // Use event.currentTarget
   const bbox = pathElement.node().getBBox(); // Get the SVG bounding box in pixel space
-  console.log("Bounding box:", bbox); // LOG BOUNDING BOX - GROK
 
   const { x, y, width: bboxWidth, height: bboxHeight } = bbox;
   if (bboxWidth === 0 || bboxHeight === 0) {
@@ -84,26 +107,18 @@ function zoomToCountry(event, d, infoBoxCountries, resetBtnCountries, zoomGroup,
   const centerX = x + bboxWidth / 2;
   const centerY = y + bboxHeight / 2;
   const translate = [width / 2 - scale * centerX, height / 2 - scale * centerY];
-  console.log("Translation:", translate); // LOG TRANSLATION - GROK
 
   // Apply transform to zoomGroup
   zoomGroup.transition()
     .duration(750)
     .attr("transform", `translate(${translate}) scale(${scale})`)
-    .on("end", () => console.log("Zoom transition completed")); // LOG TRANSITION END - GROK
 
-  // UPDATE INFO BOX WITH NATIONAL DATA - GROK
   const year = slider.node().value;
-  console.log("Selected year:", year); // LOG SELECTED YEAR - GROK
-  const countryName = d.properties.name || "Unknown Country"; // ASSUMES GeoJSON HAS name PROPERTY, ADJUST IF DIFFERENT - GROK
-  console.log("Country name:", countryName); // LOG COUNTRY NAME - GROK
-  const countryCode = getCountryCode(countryName, year); // USE IMPORTED FUNCTION - GROK
-  console.log("Country code:", countryCode); // LOG COUNTRY CODE - GROK
-  const displayName = getDisplayName(countryName, year); // USE IMPORTED FUNCTION - GROK
-  console.log("Display name:", displayName); // LOG DISPLAY NAME - GROK
+  const countryName = d.properties.name || "Unknown Country";
+  const countryCode = getCountryCode(countryName, year);
+  const displayName = getDisplayName(countryName, year);
   displayNationalData(countryCode, displayName);
 
-  // SHOW RESET BUTTON - GROK
   resetBtnCountries.style("display", "block");
 }
 
