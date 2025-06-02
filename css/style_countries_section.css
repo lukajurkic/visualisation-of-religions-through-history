@@ -1,3 +1,4 @@
+/* STYLING FOR COUNTRY MAP */
 .country {
   fill: #eee;
   stroke: #999;
@@ -12,28 +13,29 @@
 .map-container {
   position: relative;
   width: 100%;
-  max-width: 1500px; /* Increased max-width to accommodate larger map */
-  margin: 0 auto;
+  max-width: none; /* REMOVE MAX-WIDTH TO ALLOW FULL FLEX WIDTH */
+  margin: 0; /* REMOVE AUTO MARGIN TO PREVENT CENTERING */
 }
 
 .map-container svg {
-  width: 100%;
-  height: 100vh; /* Increased to 60vh to match JavaScript */
+  width: 66.67%;
+  height: 70vh; /* MATCH JAVASCRIPT HEIGHT (window.innerHeight * 0.8) */
   background-color: white;
   display: block;
   border: 2px solid #999;
 }
 
 #reset-btn-countries {
-    padding: 8px 16px; /* Slightly smaller than show-data-btn for control panel */
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-family: Arial, sans-serif; /* Match body */
-  }
-  #reset-btn-countries:hover {
-    background-color: #0056b3;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+}
+
+#reset-btn-countries:hover {
+  background-color: #0056b3;
 }

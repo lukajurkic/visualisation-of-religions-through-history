@@ -12,6 +12,7 @@
   <!-- <link rel="stylesheet" href="css/show_data_button.css" /> -->
   <link rel="stylesheet" href="css/popup_global_data.css" />
   <link rel="stylesheet" href="css/infobox.css" />
+  <link rel="stylesheet" href="css/graph_area.css" /> <!-- ADDED CSS FOR GRAPH AREA -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -38,19 +39,23 @@
     </div>
   </div>
   
-  
   <!-- Sections with subtitles -->
   <div class="container" style="margin: 20px;">
-
     <h2 id="selected-year">Year: 1945</h2>
-        <input type="range" id="year-slider" min="1945" max="2010" step="5" value="1945" />
+    <input type="range" id="year-slider" min="1945" max="2010" step="5" value="1945" />
 
     <section id="section1">
       <h2 style="text-align: center;">Section 1</h2>
-      <div class="map-container">
-        <div id="info-box-countries">Select a country</div>
-        <svg id="map-countries" style="border: 2px solid #999;"></svg>
-        <button id="reset-btn-countries" style="display:none;">Back to World View</button>
+      <div class="section1-container" style="display: flex; justify-content: space-between;">
+        <div class="map-container">
+          <div id="info-box-countries">Select a country</div>
+          <svg id="map-countries" style="border: 2px solid #999;"></svg>
+          <button id="reset-btn-countries" style="display:none;">Back to World View</button>
+        </div>
+        <div class="graph-container">
+          <h3 style="text-align: center;">Country Data Visualization</h3>
+          <svg id="graph-countries"></svg>
+        </div>
       </div>
     </section>
 
@@ -72,10 +77,7 @@
   </div>
   <div id="popup"></div>
 
-  <!-- <script type="module" src="js/main.js"></script> -->
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/button.js"></script>
-  <!-- <script type="module" src="js/regionalData.js"></script> -->
-  <!-- <script type="module" src="js/nationalData.js"></script> -->
 </body>
 </html>

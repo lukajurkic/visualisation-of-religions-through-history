@@ -31,7 +31,7 @@ import { getCountryCode, getDisplayName, regionMap, columnMapping, formatNumber 
     ==================================================
   */
   const height = window.innerHeight * 0.8;
-  const width = height * 1.5;
+  const width = height * 1.4;
   svgCountries.attr("width", width).attr("height", height);
   svgContinents.attr("width", width).attr("height", height);
 
