@@ -61,11 +61,18 @@
 
     <section id="section2">
       <h2 style="text-align: center;">Section 2</h2>
-      <div class="map-container">
-        <div id="info-box-continents">Select a continent</div>
-        <svg id="map-continents" style="border: 2px solid #999;"></svg>
-        <button id="reset-btn-continents" style="display:none;">Back to World View</button>
+      <div class="section2-container" style="display: flex; justify-content: space-between;">
+        <div class="graph-container">
+            <h3 style="text-align: center;">Continent Data Visualization</h3>
+            <svg id="graph-continents"></svg>
+        </div>
+        <div class="map-container">
+          <div id="info-box-continents">Select a continent</div>
+          <svg id="map-continents" style="border: 2px solid #999;"></svg>
+          <button id="reset-btn-continents" style="display:none;">Back to World View</button>
+        </div>
       </div>
+      
     </section>
 
     <section id="section3">
