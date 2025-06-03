@@ -8,7 +8,6 @@ export async function initNationalData(data, infoBoxElement, sliderElement) {
   infoBox = infoBoxElement;
   slider = sliderElement;
   window.nationalData = { hasDataForCountry }; // Ensure this is set for utils.js
-  console.log("National data sample:", nationalData.slice(0, 5)); // Log sample data
 }
 
 export function hasDataForCountry(countryCode, year) {

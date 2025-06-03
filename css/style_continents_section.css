@@ -23,18 +23,3 @@
   display: block;
   border: 2px solid #999;
 }
-
-#reset-btn-countries {
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-family: Arial, sans-serif;
-}
-
-#reset-btn-countries:hover {
-  background-color: #0056b3;
-}

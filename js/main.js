@@ -1,5 +1,6 @@
 import { displayCountriesMap } from "./map_countries.js";
 import { displayContinentsMap } from "./map_continents.js";
+import { displayMapDistribution } from "./map_distribution.js"; 
 import { initializeSlider } from "./slider.js";
 import { initNationalData, displayNationalData } from "./national_data.js";
 import { initRegionalData, displayRegionalData } from "./regional_data.js";
@@ -25,6 +26,7 @@ let selectedCountryName = null;
   */
   const svgCountries = d3.select("#map-countries");
   const svgContinents = d3.select("#map-continents");
+  const svgDistribution = d3.select("#map-countries-distribution");
   const resetBtnCountries = d3.select("#reset-btn-countries");
   const infoBoxCountries = d3.select("#info-box-countries");
   const resetBtnContinents = d3.select("#reset-btn-continents");
@@ -40,8 +42,13 @@ let selectedCountryName = null;
   */
   const height = window.innerHeight * 0.8;
   const width = height * 1.4;
+  const fullHeight = window.innerHeight;
+  const fullWidth = height * 2.5;
   svgCountries.attr("width", width).attr("height", height);
   svgContinents.attr("width", width).attr("height", height);
+  svgDistribution
+  .attr("viewBox", `0 0 ${fullWidth} ${fullHeight}`)
+  .attr("preserveAspectRatio", "xMidYMid meet");
 
   /*==================================================
     Data initialization
@@ -72,7 +79,8 @@ let selectedCountryName = null;
     ==================================================
   */
   const { zoomGroup, projectionNational, nationalPaths } = await displayCountriesMap(svgCountries, width, height);
-  const { projectionRegional, regionalPaths } = await displayContinentsMap(svgContinents, width, height, regionalData);
+  const { projectionRegional, regionalPaths } = await displayContinentsMap(svgContinents, width, height);
+  const { projectionDistribution, distributionPaths } = await displayMapDistribution(svgDistribution, fullWidth, fullHeight);
   initializeSlider(slider, yearDisplay, 1945, 2010);
 
   /*==================================================
@@ -80,13 +88,11 @@ let selectedCountryName = null;
     ==================================================
   */
   nationalPaths.on("click", function(event, d) {
-    console.info("Click detected")
     event.stopPropagation();
     processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider);
   });
 
   regionalPaths.on("click", function(event, d) {
-    console.info("Click detected")
     event.stopPropagation();
     const continentName = d.properties.CONTINENT || "Unknown Continent";
     const regions = regionMap[continentName] || continentName;
@@ -95,20 +101,17 @@ let selectedCountryName = null;
   });
 
   resetBtnCountries.on("click", function(event, d) {
-    console.info("Click detected")
     resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
     resetGraph(chartSvg)
   });
 
   svgCountries.on("click", function(event) {
-    console.info("Click detected")
     if (event.target.tagName === "svg" || event.target.classList.contains("zoom-group")) {
       resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
     }
   });
 
   svgContinents.on("click", function(event) {
-    console.info("Click detected")
     if (event.target.tagName === "svg") {
       resetBtn(svgContinents, resetBtnContinents, infoBoxContinents);
       resetRegionalGraph(chartSvg)
@@ -119,14 +122,17 @@ let selectedCountryName = null;
     const year = this.value;
       yearDisplay.text("Year: " + year);
       if (selectedCountryCode && selectedCountryName) {
-      // UPDATE GRAPH
       drawGraph(selectedCountryCode, year);
-      // UPDATE INFOBOX
       displayNationalData(selectedCountryCode, selectedCountryName, year);
     } else {
       console.warn("NO COUNTRY SELECTED, SKIPPING GRAPH AND INFOBOX UPDATE");
     }
     });
+
+    select.on("change", function() {
+      const religionKey = this.value || null;
+      console.log("Religion selected:", religionKey);
+    })
 
 })();
 

@@ -98,3 +98,39 @@ section h2 {
   font-size: 24px;
   margin-bottom: 10px;
 }
+
+/*==================================================
+  Year slider styles 
+  ==================================================
+*/
+#year-slider {
+  width: 100%;
+  display: block;
+  margin: 20px auto; 
+}
+
+.year-label {
+  font-family: Arial, sans-serif;
+}
+
+.slider-wrapper svg {
+  height: 30px;
+  display: block;
+  width: 100%;
+}
+
+.year-label {
+  font-size: 12px;
+  fill: #333;
+  font-family: Arial, sans-serif;
+  text-anchor: middle;
+}
+
+.year-container {
+  position: sticky;
+  top: 0;
+  background-color: white; /* ensure content doesn't show behind it */
+  z-index: 1000;            /* keep it on top */
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
