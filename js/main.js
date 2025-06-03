@@ -7,6 +7,7 @@ import { initRegionalData, displayRegionalData } from "./regional_data.js";
 import { getCountryCode, getDisplayName, regionMap, religionList } from "./utils.js";
 import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
 import { drawRegionalGraph, resetRegionalGraph, initRegionalGraph } from "./regional_graph.js"
+import { updateCountryColors } from "./distribution_data.js";
 
 let selectedCountryCode = null;
 let selectedCountryName = null;
@@ -130,8 +131,13 @@ let selectedCountryName = null;
     });
 
     select.on("change", function() {
-      const religionKey = this.value || null;
+      const religionKey = this.value;
       console.log("Religion selected:", religionKey);
+      if (religionKey) {
+      updateCountryColors(nationalData, religionKey, slider.node().value); // UPDATE MAP COLORS
+    } else {
+      resetMapColors(); // RESET MAP COLORS IF NO RELIGION SELECTED
+    }
     })
 
 })();
@@ -175,4 +181,9 @@ function resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries) {
   infoBoxCountries.text("Select a country");
   selectedCountryCode = null;
   selectedCountryName = null;
+}
+
+function resetMapColors() {
+  d3.select("#map-countries-distribution").selectAll("path")
+    .style("fill", "#ffffff"); // RESET TO WHITE
 }

@@ -340,34 +340,34 @@ export function getCountryCode(name, year) {
   const historical = historicalCountryMap[name];
 
   if (!historical) {
-    console.log(`No historical mapping for ${name}, using modern code: ${modernCode}`);
+    // console.log(`No historical mapping for ${name}, using modern code: ${modernCode}`);
     return modernCode;
   }
 
   if (year < historical.dissolutionYear) {
-    console.log(`Year ${year} < dissolution ${historical.dissolutionYear} for ${name}, using historical code: ${historical.historicalCode}`);
+    // console.log(`Year ${year} < dissolution ${historical.dissolutionYear} for ${name}, using historical code: ${historical.historicalCode}`);
     return historical.historicalCode;
   }
 
   // At or after dissolution, check for modern data first
   const modernDataExists = window.nationalData && window.nationalData.hasDataForCountry(modernCode, year);
-  console.log(`Checking modern data for ${modernCode} in ${year}: ${modernDataExists}`);
+  // console.log(`Checking modern data for ${modernCode} in ${year}: ${modernDataExists}`);
 
   if (modernDataExists) {
-    console.log(`Modern data exists for ${modernCode} in ${year}, using modern code`);
+    // console.log(`Modern data exists for ${modernCode} in ${year}, using modern code`);
     return modernCode;
   }
 
   // Fallback to historical data if modern data isn't available
   const historicalDataExists = window.nationalData && window.nationalData.hasDataForCountry(historical.historicalCode, year);
-  console.log(`Checking historical data for ${historical.historicalCode} in ${year}: ${historicalDataExists}`);
+  // console.log(`Checking historical data for ${historical.historicalCode} in ${year}: ${historicalDataExists}`);
 
   if (historicalDataExists) {
-    console.log(`No modern data, using historical code ${historical.historicalCode} for ${name} in ${year}`);
+    // console.log(`No modern data, using historical code ${historical.historicalCode} for ${name} in ${year}`);
     return historical.historicalCode;
   }
 
-  console.log(`No data available for ${name} in ${year}, defaulting to modern code: ${modernCode}`);
+  // console.log(`No data available for ${name} in ${year}, defaulting to modern code: ${modernCode}`);
   return modernCode;
 }
 
