@@ -23,9 +23,6 @@ export function initializeSlider(slider, yearDisplay, minYear, maxYear) {
 
   const labelSvg = wrapper
     .append("svg")
-    .attr("width", "100%")
-    .attr("height", 30)
-    .style("display", "block");
 
   function updateLabels() {
     const sliderNode = slider.node();
@@ -45,8 +42,6 @@ export function initializeSlider(slider, yearDisplay, minYear, maxYear) {
       .attr("x", d => labelScale(d))
       .attr("y", 20)
       .attr("text-anchor", "middle")
-      .style("font-size", "12px")
-      .style("fill", "#333")
       .text(d => d);
   }
 
