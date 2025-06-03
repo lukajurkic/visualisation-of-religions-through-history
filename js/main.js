@@ -5,6 +5,7 @@ import { initNationalData, displayNationalData } from "./national_data.js";
 import { initRegionalData, displayRegionalData } from "./regional_data.js";
 import { getCountryCode, getDisplayName, regionMap } from "./utils.js";
 import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
+import { drawRegionalGraph, resetRegionalGraph, initRegionalGraph } from "./regional_graph.js"
 
 let selectedCountryCode = null;
 let selectedCountryName = null;
@@ -54,6 +55,7 @@ let selectedCountryName = null;
     console.error("Error loading data:", error);
   }
   if(initGraph(nationalData)) { console.info("Graph initialized successfully");} 
+  if(initRegionalGraph(regionalData)) { console.info("Graph initialized successfully");}
   else { console.error("Graph initialization failed");}
 
 
@@ -81,6 +83,7 @@ let selectedCountryName = null;
     const continentName = d.properties.CONTINENT || "Unknown Continent";
     const regions = regionMap[continentName] || continentName;
     displayRegionalData(regions, infoBoxContinents);
+    drawRegionalGraph(regions, slider.node().value);
   });
 
   resetBtnCountries.on("click", function(event, d) {
@@ -100,6 +103,7 @@ let selectedCountryName = null;
     console.info("Click detected")
     if (event.target.tagName === "svg") {
       resetBtn(svgContinents, resetBtnContinents, infoBoxContinents);
+      resetRegionalGraph(chartSvg)
     }
   });
 
