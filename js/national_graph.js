@@ -1,4 +1,4 @@
-import { columnMapping, formatNumber } from './utils.js';
+import { columnMapping, drawBarChart } from './utils.js';
 
 let nationalData = [];
 let svg, width, height, margin, chartWidth, chartHeight;
@@ -83,6 +83,10 @@ export function drawGraph(countryCode, year) {
     !key.includes("sourcereliab") &&
     !key.includes("pop"));
   const religionData = entries
+    .map(([key, value]) => {
+          const cleanedValue = parseInt(String(value).replace(/,/g, ''), 10);
+          return [key, cleanedValue];
+      })
     .filter(([key, value]) => !isNaN(value) && Number(value) !== 0)
     .map(([key, value]) => {
         return {
@@ -102,96 +106,14 @@ export function drawGraph(countryCode, year) {
     return;
   }
 
-  // SET UP SCALES
-  const x = d3.scaleBand()
-    .domain(religionData.map(d => d.religion))
-    .range([margin.left, chartWidth + margin.left])
-    .padding(0.1);
-  console.info("Religions:", religionData);
+  const barData = religionData.map(d => ({
+    label: d.religion,   // or whatever label
+    value: d.population, // or population %
+  }));
 
-  const maxPopulation = d3.max(religionData, d => Number(d.population));
-  console.info("MAX POPULATION:", maxPopulation);
-  if (isNaN(maxPopulation) || maxPopulation <= 0) {
-    console.error("INVALID MAX POPULATION:", maxPopulation);
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", height / 2)
-      .attr("text-anchor", "middle")
-      .style("font-size", "14px")
-      .text("Invalid population data");
-    return;
-  }
+  console.info("BAR DATA NATIONAL:", barData);
 
-  const y = d3.scaleLinear()
-    .domain([0, maxPopulation])
-    // .nice()
-    .range([chartHeight + margin.top, margin.top]);
-
-  const color = d3.scaleOrdinal()
-    .domain(religionData.map(d => d.religion))
-    .range(d3.schemeCategory10);
-
-  // CREATE CHART GROUP
-  const chart = svg.append("g")
-    .attr("transform", `translate(0, 0)`);
-
-  // DRAW BARS
-  chart.selectAll(".bar")
-    .data(religionData)
-    .join("rect")
-    .attr("class", "bar")
-    .attr("x", d => {
-      const xVal = x(d.religion);
-      if (isNaN(xVal)) console.error("INVALID X VALUE:", d.religion);
-      return xVal;
-    })
-    .attr("y", d => {
-      const yVal = y(d.population);
-      if (isNaN(yVal)) console.error("INVALID Y VALUE:", d.population);
-      return yVal;
-    })
-    .attr("width", x.bandwidth())
-    .attr("height", d => {
-      const h = chartHeight + margin.top - y(d.population);
-      if (isNaN(h)) console.error("INVALID HEIGHT:", d.population);
-      return h;
-    })
-    .attr("fill", d => color(d.religion))
-    .on("mouseover", function(event, d) {
-      d3.select(this).attr("fill", d => d3.color(color(d.religion)).brighter(0.5));
-      tooltip
-        .style("opacity", 1)
-        .html(`${d.religion}: ${formatNumber(d.population)}`)
-        .style("left", (event.pageX + 10) + "px")
-        .style("top", (event.pageY - 10) + "px");
-    })
-    .on("mouseout", function(d) {
-      d3.select(this).attr("fill", color(d.religion));
-      tooltip.style("opacity", 0);
-    });
-
-  chart.append("g")
-    .attr("class", "x-axis")
-    .attr("transform", `translate(0, ${chartHeight + margin.top})`)
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    .style("text-anchor", "end")
-    .attr("dx", "-.8em")
-    .attr("dy", ".15em")
-    .attr("transform", "rotate(-45)");
-
-  // ADD Y-AXIS
-  chart.append("g")
-    .attr("class", "y-axis")
-    .attr("transform", `translate(${margin.left}, 0)`)
-    .call(d3.axisLeft(y).tickFormat(d3.format(".2s")))
-    .append("text")
-    .attr("fill", "#000")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 6)
-    .attr("dy", "-3em")
-    .attr("text-anchor", "end")
-    .text("Number of People");
+  drawBarChart({svg,data: barData,tooltip,margin,width,height,yLabel: "Number of People"});
 }
 
 export function resetGraph() {

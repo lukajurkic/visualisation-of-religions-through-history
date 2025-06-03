@@ -406,14 +406,14 @@ function historicalCodeToName(code) {
   // Custom function to format numbers with spaces and 3 decimal places
  export function formatNumber(value) {
     // Remove commas from the input string
-    let cleanValue;
-    try{
-      cleanValue = value.replace(/,/g, '');
-    } catch(error) {
-      return value;
+    let cleanValue = value;
+    if (value.includes(',')) {
+      try{
+        cleanValue = value.replace(/,/g, '');
+      } catch(error) {
+        return value;
+      }
     }
-    
-    
     // Check if the cleaned value is a number
     const num = parseFloat(cleanValue);
     if (isNaN(num)) {
@@ -436,3 +436,86 @@ function historicalCodeToName(code) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
   }
+
+  export function drawBarChart({
+  svg,
+  data,
+  tooltip,
+  margin,
+  width,
+  height,
+  xLabel = "",
+  yLabel = "Population"
+}) {
+  const chartWidth = width - margin.left - margin.right;
+  const chartHeight = height - margin.top - margin.bottom;
+
+  // X and Y scales
+  const x = d3.scaleBand()
+    .domain(data.map(d => d.label))
+    .range([margin.left, chartWidth + margin.left])
+    .padding(0.1);
+
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)])
+    .range([chartHeight + margin.top, margin.top]);
+
+  // Colors
+  const colorScale = d3.scaleSequential()
+    .domain([0, data.length - 1])
+    .interpolator(t => d3.interpolateBlues(0.3 + t * 0.7));
+
+  const colorMap = {};
+  data.forEach((d, i) => {
+    colorMap[d.label] = colorScale(i);
+  });
+
+  const chart = svg.append("g");
+
+  chart.selectAll(".bar")
+    .data(data)
+    .join("rect")
+    .attr("class", "bar")
+    .attr("x", d => x(d.label))
+    .attr("y", d => y(d.value))
+    .attr("width", x.bandwidth())
+    .attr("height", d => chartHeight + margin.top - y(d.value))
+    .attr("fill", d => colorMap[d.label])
+    .attr("data-original-fill", d => colorMap[d.label])
+    .on("mouseover", function (event, d) {
+      d3.select(this).attr("fill", "orange");
+      tooltip
+        .style("opacity", 1)
+        .html(`${d.label}: ${d.value.toLocaleString()}`)
+        .style("left", (event.pageX + 10) + "px")
+        .style("top", (event.pageY - 10) + "px");
+    })
+    .on("mouseout", function () {
+      const original = d3.select(this).attr("data-original-fill");
+      d3.select(this).attr("fill", original);
+      tooltip.style("opacity", 0);
+    });
+
+  // Axes
+  chart.append("g")
+    .attr("class", "x-axis")
+    .attr("transform", `translate(0, ${chartHeight + margin.top})`)
+    .call(d3.axisBottom(x))
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("dx", "-.8em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-45)");
+
+  chart.append("g")
+    .attr("class", "y-axis")
+    .attr("transform", `translate(${margin.left}, 0)`)
+    .call(d3.axisLeft(y).tickFormat(d3.format(".2s")))
+    .append("text")
+    .attr("fill", "#000")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", "-3em")
+    .attr("text-anchor", "end")
+    .text(yLabel);
+}
