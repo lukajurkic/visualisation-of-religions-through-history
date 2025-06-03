@@ -28,14 +28,15 @@ export function updateCountryColors(nationalData, selectedReligion, year) {
 
     const populations = countryData.map(d => d.population).filter(p => p > 0);
     const maxPopulation = d3.max(populations);
-    const minPopulation = d3.min(populations);
+    const minNonZeroPopulation = d3.min(populations.filter(p => p > 0)) || (maxPopulation * 0.01);
     if (!maxPopulation || maxPopulation <= 0) {
         console.warn("NO VALID POPULATION DATA FOR:", selectedReligion, year);
         return;
     }
 
-    const colorScale = d3.scaleSequential(d3.interpolateBlues)
-        .domain([0, maxPopulation]);
+    const colorScale = d3.scaleLinear()
+        .domain([minNonZeroPopulation, maxPopulation])
+        .range(["#87CEEB", "#00008B"]);
 
     const countryPaths = d3.select("#map-countries-distribution").selectAll("path");
 
@@ -45,8 +46,12 @@ export function updateCountryColors(nationalData, selectedReligion, year) {
         const countryCode = getCountryCode(countryName, year);
         const dataEntry = countryData.find(cd => cd.countryCode === countryCode);
 
-        if (dataEntry && dataEntry.population > 0) {
-            path.style("fill", colorScale(dataEntry.population));
+        if (dataEntry) {
+            if (dataEntry.population > 0) {
+                path.style("fill", colorScale(dataEntry.population));
+            } else {
+                path.style("fill", "#ffffff");
+            }
         } else {
             path.style("fill", "#ffffff");
         }

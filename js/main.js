@@ -9,8 +9,14 @@ import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
 import { drawRegionalGraph, resetRegionalGraph, initRegionalGraph } from "./regional_graph.js"
 import { updateCountryColors } from "./distribution_data.js";
 
+/*==================================================
+    Global Variables
+    ==================================================
+  */
 let selectedCountryCode = null;
 let selectedCountryName = null;
+let selectedReligionDistribution = null;
+let selectedRegions = null;
 
 (async function main() {
   /*==================================================
@@ -41,8 +47,8 @@ let selectedCountryName = null;
     Size calculating
     ==================================================
   */
-  const height = window.innerHeight * 0.8;
-  const width = height * 1.4;
+  const height = window.innerHeight * 0.6;
+  const width = height * 2;
   const fullHeight = window.innerHeight;
   const fullWidth = height * 2.5;
   svgCountries.attr("width", width).attr("height", height);
@@ -73,6 +79,8 @@ let selectedCountryName = null;
     .append("option")
     .attr("value", d => d)
     .text(d => d);
+  select.property("value", "Select religion");
+  resetMapColors();
 
 
   /*==================================================
@@ -97,6 +105,7 @@ let selectedCountryName = null;
     event.stopPropagation();
     const continentName = d.properties.CONTINENT || "Unknown Continent";
     const regions = regionMap[continentName] || continentName;
+    selectedRegions = regions;
     displayRegionalData(regions, infoBoxContinents);
     drawRegionalGraph(regions, slider.node().value);
   });
@@ -114,6 +123,7 @@ let selectedCountryName = null;
 
   svgContinents.on("click", function(event) {
     if (event.target.tagName === "svg") {
+      selectedRegions = null;
       resetBtn(svgContinents, resetBtnContinents, infoBoxContinents);
       resetRegionalGraph(chartSvg)
     }
@@ -123,21 +133,27 @@ let selectedCountryName = null;
     const year = this.value;
       yearDisplay.text("Year: " + year);
       if (selectedCountryCode && selectedCountryName) {
-      drawGraph(selectedCountryCode, year);
-      displayNationalData(selectedCountryCode, selectedCountryName, year);
-    } else {
-      console.warn("NO COUNTRY SELECTED, SKIPPING GRAPH AND INFOBOX UPDATE");
-    }
+        drawGraph(selectedCountryCode, year);
+        displayNationalData(selectedCountryCode, selectedCountryName, year);
+      } else if(selectedReligionDistribution) {
+          updateCountryColors(nationalData, selectedReligionDistribution, slider.node().value);
+      } else if(selectedRegions) {
+          displayRegionalData(selectedRegions, infoBoxContinents);
+          drawRegionalGraph(selectedRegions, slider.node().value);
+      } else{
+        console.warn("NO COUNTRY SELECTED, SKIPPING GRAPH AND INFOBOX UPDATE");
+      }
     });
 
     select.on("change", function() {
       const religionKey = this.value;
       console.log("Religion selected:", religionKey);
-      if (religionKey) {
-      updateCountryColors(nationalData, religionKey, slider.node().value); // UPDATE MAP COLORS
-    } else {
-      resetMapColors(); // RESET MAP COLORS IF NO RELIGION SELECTED
-    }
+      if (religionKey && religionKey !== "Select religion") {
+        selectedReligionDistribution = religionKey;
+        updateCountryColors(nationalData, religionKey, slider.node().value);
+      } else {
+        resetMapColors();
+      }
     })
 
 })();
@@ -184,6 +200,7 @@ function resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries) {
 }
 
 function resetMapColors() {
+  selectedReligionDistribution = null;
   d3.select("#map-countries-distribution").selectAll("path")
-    .style("fill", "#ffffff"); // RESET TO WHITE
+    .style("fill", "#eeeeee");
 }

@@ -114,7 +114,7 @@ export const religionKeysOrdered = [
   "nonrelig",
   "othrgen" // final key
 ];
-export const religionList = religionKeysOrdered.map(key => columnMapping[key]);
+export const religionList = ["Select religion", ...religionKeysOrdered.map(key => columnMapping[key])];
 export const regionMap = {
   "North America": "West. Hem",
   "South America": "West. Hem",
