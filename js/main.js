@@ -40,7 +40,8 @@ let selectedRegions = null;
   const infoBoxContinents = d3.select("#info-box-continents");
   const slider = d3.select("#year-slider");
   const yearDisplay = d3.select("#selected-year");
-  const chartSvg = d3.select("#graph-countries");
+  const chartSvgCountries = d3.select("#graph-countries");
+  const chartSvgContinents = d3.select("#graph-continents");
   const select = d3.select("#religion-select");
 
   /*==================================================
@@ -112,12 +113,13 @@ let selectedRegions = null;
 
   resetBtnCountries.on("click", function(event, d) {
     resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
-    resetGraph(chartSvg)
+    resetGraph(chartSvgCountries)
   });
 
   svgCountries.on("click", function(event) {
     if (event.target.tagName === "svg" || event.target.classList.contains("zoom-group")) {
       resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
+      resetGraph(chartSvgCountries)
     }
   });
 
@@ -125,7 +127,7 @@ let selectedRegions = null;
     if (event.target.tagName === "svg") {
       selectedRegions = null;
       resetBtn(svgContinents, resetBtnContinents, infoBoxContinents);
-      resetRegionalGraph(chartSvg)
+      resetRegionalGraph(chartSvgContinents)
     }
   });
 

@@ -3,7 +3,6 @@ import { columnMapping, drawBarChart } from './utils.js';
 let nationalData = [];
 let svg, width, height, margin, chartWidth, chartHeight;
 
-// CREATE TOOLTIP DIV
 const tooltip = d3.select("body")
   .append("div")
   .attr("class", "tooltip")

@@ -406,8 +406,8 @@ function historicalCodeToName(code) {
   // Custom function to format numbers with spaces and 3 decimal places
  export function formatNumber(value) {
     // Remove commas from the input string
-    let cleanValue = value;
-    if (value.includes(',')) {
+    let cleanValue = value.toString();
+    if (cleanValue.includes(',')) {
       try{
         cleanValue = value.replace(/,/g, '');
       } catch(error) {

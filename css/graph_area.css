@@ -87,3 +87,11 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
+
+.tooltip-distribution {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}

@@ -1,9 +1,22 @@
-import { columnMapping, getCountryCode } from './utils.js';
+import { columnMapping, getCountryCode, formatNumber, getDisplayName } from './utils.js';
 
 const reverseColumnMapping = Object.entries(columnMapping).reduce((acc, [key, value]) => {
     acc[value] = key;
     return acc;
 }, {});
+
+const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip-distribution") // UNIQUE CLASS TO AVOID CONFLICTS
+    .style("position", "absolute")
+    .style("background", "#fff")
+    .style("border", "1px solid #999")
+    .style("padding", "5px")
+    .style("border-radius", "3px")
+    .style("pointer-events", "none")
+    .style("opacity", 0)
+    .style("font-family", "Arial, sans-serif")
+    .style("font-size", "12px");
 
 export function updateCountryColors(nationalData, selectedReligion, year) {
     const column = reverseColumnMapping[selectedReligion];
@@ -52,8 +65,29 @@ export function updateCountryColors(nationalData, selectedReligion, year) {
             } else {
                 path.style("fill", "#ffffff");
             }
+            path.on("mouseover", function(event) {
+                const populationText = dataEntry.population > 0 ? formatNumber(dataEntry.population) : "0";
+                tooltip
+                    .style("opacity", 1)
+                    .html(`${getDisplayName(countryName, year)}<br>${selectedReligion}: ${populationText}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            });
         } else {
             path.style("fill", "#ffffff");
+            path.on("mouseover", function(event) {
+                tooltip
+                    .style("opacity", 1)
+                    .html(`${getDisplayName(countryName, year)}<br>${selectedReligion}: No data`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("opacity", 0);
+            });
         }
     });
 }
