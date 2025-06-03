@@ -3,7 +3,7 @@ import { displayContinentsMap } from "./map_continents.js";
 import { initializeSlider } from "./slider.js";
 import { initNationalData, displayNationalData } from "./national_data.js";
 import { initRegionalData, displayRegionalData } from "./regional_data.js";
-import { getCountryCode, getDisplayName, regionMap } from "./utils.js";
+import { getCountryCode, getDisplayName, regionMap, religionList } from "./utils.js";
 import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
 import { drawRegionalGraph, resetRegionalGraph, initRegionalGraph } from "./regional_graph.js"
 
@@ -32,6 +32,7 @@ let selectedCountryName = null;
   const slider = d3.select("#year-slider");
   const yearDisplay = d3.select("#selected-year");
   const chartSvg = d3.select("#graph-countries");
+  const select = d3.select("#religion-select");
 
   /*==================================================
     Size calculating
@@ -57,6 +58,13 @@ let selectedCountryName = null;
   if(initGraph(nationalData)) { console.info("Graph initialized successfully");} 
   if(initRegionalGraph(regionalData)) { console.info("Graph initialized successfully");}
   else { console.error("Graph initialization failed");}
+  select
+    .selectAll("option")
+    .data(religionList)
+    .enter()
+    .append("option")
+    .attr("value", d => d)
+    .text(d => d);
 
 
   /*==================================================

@@ -17,6 +17,21 @@ body {
 }
 
 
+/*==================================================
+  Dropdown styles 
+  ==================================================
+*/
+.religion-dropdown-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#religion-select {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+
 
 
 #controls {
