@@ -4,7 +4,7 @@ import { displayMapDistribution } from "./map_distribution.js";
 import { initializeSlider } from "./slider.js";
 import { initNationalData, displayNationalData } from "./national_data.js";
 import { initRegionalData, displayRegionalData } from "./regional_data.js";
-import { getCountryCode, getDisplayName, regionMap, religionList } from "./utils.js";
+import { getCountryCode, getDisplayName, regionMap, religionList, columnMapping, formatNumber } from "./utils.js";
 import { drawGraph, resetGraph, initGraph } from "./national_graph.js"
 import { drawRegionalGraph, resetRegionalGraph, initRegionalGraph } from "./regional_graph.js"
 import { updateCountryColors } from "./distribution_data.js";
@@ -27,6 +27,7 @@ let dataDisplayed = false;
   */
   let nationalData = [];
   let regionalData = [];
+  let globalData = [];
   
 
   /*==================================================
@@ -45,6 +46,9 @@ let dataDisplayed = false;
   const chartSvgContinents = d3.select("#graph-continents");
   const select = d3.select("#religion-select");
   const backToTopButton = document.getElementById('back-to-top');
+  const showDataButton = document.getElementById('show-data-btn');
+  const popup = d3.select("#popup");
+  const container = d3.select(".container");
 
   /*==================================================
     Size calculating
@@ -67,10 +71,11 @@ let dataDisplayed = false;
   try {
     nationalData = await d3.csv("data/WRP_national.csv");
     regionalData = await d3.csv("data/WRP_regional.csv");
+    globalData = await d3.csv("data/WRP_global.csv");
     await initNationalData(nationalData, infoBoxCountries, slider);
     await initRegionalData(regionalData, infoBoxContinents, slider);
   } catch (error) {
-    console.error("Error loading data:", error);
+    console.error("Error loading CSV data:", error);
   }
   if(initGraph(nationalData)) { console.info("Graph initialized successfully");} 
   if(initRegionalGraph(regionalData)) { console.info("Graph initialized successfully");}
@@ -102,6 +107,17 @@ let dataDisplayed = false;
     Setting up event listeners
     ==================================================
   */
+  showDataButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const html = prepareGlobalData(globalData, slider.node().value);
+    popup.html(html).style("display", "block");
+    container.classed("blurred", true);
+
+    d3.select("#popup .close-btn").on("click", () => {
+      popup.style("display", "none");
+      container.classed("blurred", false);
+    });
+  })
   nationalPaths
     .on("click", function(event, d) {
       event.stopPropagation();
@@ -247,4 +263,31 @@ function resetMapColors() {
   selectedReligionDistribution = null;
   d3.select("#map-countries-distribution").selectAll("path")
     .style("fill", "#eeeeee");
+}
+
+function prepareGlobalData(data, year) {
+  const row = data.find(d => +d["year"] === +year);
+  let html = '<button class="close-btn">X</button>';
+  if (!row) {
+    html += `<strong>No data available for ${year}</strong>`;
+  } else {
+    const entries = Object.entries(row).filter(([key]) => key !== "year" && key !== "version");
+    html += `<strong>Data for Year ${year}</strong>
+             <table>
+               <tr>
+                 <th>Metric</th>
+                 <th>Value</th>
+               </tr>`;
+    entries.forEach(([key, value]) => {
+      const fullName = columnMapping[key] || key;
+      const displayName = fullName.includes("Total") ? `<strong>${fullName}</strong>` : fullName;
+      const formattedValue = fullName.includes("Total") ? `<strong>${formatNumber(value)}</strong>` : formatNumber(value);
+      html += `<tr>
+                 <td>${displayName}</td>
+                 <td>${formattedValue}</td>
+               </tr>`;
+    });
+    html += `</table>`;
+  }
+  return html
 }
