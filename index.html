@@ -1,89 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Interactive World Map</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/style_continents_section.css" />
-  <link rel="stylesheet" href="css/style_distribution_section.css" />
-  <link rel="stylesheet" href="css/style_countries_section.css" />
-  <script src="https://d3js.org/d3.v7.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Religious Division in the Past</title>
+    <!-- CAPS LOCK: ADDED GOOGLE FONTS FOR MODERN TYPOGRAPHY -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-  <div class="title">
-    <h1>Religious Division in the Past</h1>
-    <div class="menu">
-      <div>
-        <a href="#section1">Country division</a>
-      </div>
-      <div>
-        <a href="#section2">Regional division</a>
-      </div>
-      <div>
-        <a href="#section3">Religion distribution</a>
-      </div>
-      <div>
-        <a href="#" id="show-data-btn">Global data</a>
-      </div>
+    <div class="container">
+        <!-- CAPS LOCK: ADDED HEADER WITH MODERN STYLING -->
+        <header class="app-header">
+            <h1 class="title">Religious Division in the Past</h1>
+            <p class="subtitle">Explore historical data from 1945 to 2010</p>
+        </header>
+
+        <!-- CAPS LOCK: ADDED NAVIGATION MENU -->
+        <nav class="menu">
+            <div class="dropdown">
+                <a href="#">Country division</a>
+                <div class="dropdown-content">
+                    <a href="#">View Data</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#">Regional division</a>
+                <div class="dropdown-content">
+                    <a href="#">View Data</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#">Religion distribution</a>
+                <div class="dropdown-content">
+                    <a href="#">View Data</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#">Global data</a>
+                <div class="dropdown-content">
+                    <a href="#" id="show-data-btn">View Data</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CAPS LOCK: ADDED YEAR SLIDER CONTAINER -->
+        <div class="year-container">
+            <div class="slider-container" id="controls">
+                <input type="range" id="year-slider">
+                <div id="selected-year">Year: 1945</div>
+            </div>
+        </div>
+
+        <!-- CAPS LOCK: STRUCTURED SECTIONS WITH MODERN LAYOUT -->
+        <section>
+            <h2>Religion division by countries</h2>
+            <div class="section-container">
+                <div class="map-container">
+                    <div class="info-box" id="info-box-countries">Select a country</div>
+                    <button id="reset-btn-countries">Back to World View</button>
+                    <svg id="map-countries"></svg>
+                </div>
+                <div class="graph-container">
+                    <svg id="graph-countries"></svg>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Religion division by continents</h2>
+            <div class="section-container">
+                <div class="map-container">
+                    <div class="info-box" id="info-box-continents">Select a continent</div>
+                    <svg id="map-continents"></svg>
+                </div>
+                <div class="graph-container-continents">
+                    <svg id="graph-continents"></svg>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Religion distribution in world</h2>
+            <div class="religion-dropdown-container">
+                <label for="religion-select">Select Religion:</label>
+                <select id="religion-select"></select>
+            </div>
+            <div class="map-container-distribution">
+                <svg id="map-countries-distribution"></svg>
+            </div>
+        </section>
+
+        <!-- CAPS LOCK: ADDED POPUP FOR GLOBAL DATA -->
+        <div id="popup" class="popup"></div>
     </div>
-  </div>
-  
-  <!-- Sections with subtitles -->
-  <div class="container">
-    <div class="year-container">
-      <h2 id="selected-year">Year: 1945</h2>
-      <div class="slider-container">
-        <input type="range" class="year-slider" id="year-slider">
-      </div>
-    </div>
 
-    <section id="section1">
-      <h2 class="subtitle">Religion division by countries</h2>
-      <div class="section-container">
-        <div class="map-container">
-          <div class="info-box" id="info-box-countries">Select a country</div>
-          <svg id="map-countries"></svg>
-          <button id="reset-btn-countries">Back to World View</button>
-        </div>
-        <div class="graph-container">
-          <h3 class="subtitle">Country Data Visualization</h3>
-          <svg id="graph-countries"></svg>
-        </div>
-      </div>
-    </section>
-
-    <section id="section2">
-      <h2 class="subtitle">Religion division by continents</h2>
-      <div class="section-container">
-        <div class="graph-container graph-container-continents">
-          <h3 class="subtitle">Continent Data Visualization</h3>
-          <svg id="graph-continents"></svg>
-        </div>
-        <div class="map-container">
-          <div class="info-box" id="info-box-continents">Select a continent</div>
-          <svg id="map-continents"></svg>
-        </div>
-      </div>
-      
-    </section>
-
-  <section id="section3">
-    <h2 class="subtitle">Religion distribution in world</h2>
-    <div class="religion-dropdown-container">
-      <label for="religion-select">Select Religion:</label>
-      <select id="religion-select"></select>
-    </div>
-    <div class="section3-container">
-        <div class="map-container-distribution">
-          <svg id="map-countries-distribution"></svg>
-        </div>
-      </div>
-  </section>
-  </div>
-  <div id="popup" class="popup"></div>
-
-  <script type="module" src="js/main.js"></script>
-  <script type="module" src="js/button.js"></script>
-  <script type="module" src="js/national_graph.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/button.js"></script>
 </body>
 </html>
