@@ -55,7 +55,7 @@ body {
 */
 .map-container {
   flex: 2;
-  max-width: 66.67%;
+  max-width: 60%;
   position: relative;
   width: 100%;
   margin: 0;
@@ -87,7 +87,7 @@ body {
   ==================================================
 */
 .religion-dropdown-container {
-  text-align: center;
+  text-align: start;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -266,7 +266,7 @@ section h2 {
   display: none;
   max-height: 80vh;
   overflow-y: auto;
-  max-width: 600px; /* CAPS LOCK: INCREASED MAX WIDTH */
+  max-width: 800px; /* CAPS LOCK: INCREASED MAX WIDTH */
   width: 90%;
   z-index: 2000;
   border-radius: 12px; /* CAPS LOCK: ADDED ROUNDED CORNERS */
@@ -319,7 +319,7 @@ section h2 {
 */
 .graph-container {
   flex: 1;
-  max-width: 33.33%;
+  max-width: 40%;
   border: 2px solid #bdc3c7; /* CAPS LOCK: CHANGED BORDER COLOR */
   padding: 15px; /* CAPS LOCK: INCREASED PADDING */
   background-color: #ffffff; /* CAPS LOCK: CHANGED TO WHITE FOR CLEAN LOOK */
@@ -353,7 +353,7 @@ section h2 {
   ==================================================
 */
 #graph-continents {
-  min-width: 1000px;
+  min-width: 800px;
   height: 100%;
   display: block;
 }
@@ -361,11 +361,6 @@ section h2 {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
-  padding: 15px; /* CAPS LOCK: INCREASED PADDING */
-  border: 2px solid #bdc3c7; /* CAPS LOCK: CHANGED BORDER COLOR */
-  background-color: #ffffff; /* CAPS LOCK: CHANGED TO WHITE */
-  border-radius: 10px; /* CAPS LOCK: ADDED ROUNDED CORNERS */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* CAPS LOCK: ADDED SHADOW */
 }
 
 #graph-countries {

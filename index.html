@@ -4,48 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Religious Division in the Past</title>
-    <!-- CAPS LOCK: ADDED GOOGLE FONTS FOR MODERN TYPOGRAPHY -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <!-- CAPS LOCK: ADDED HEADER WITH MODERN STYLING -->
         <header class="app-header">
             <h1 class="title">Religious Division in the Past</h1>
             <p class="subtitle">Explore historical data from 1945 to 2010</p>
         </header>
 
-        <!-- CAPS LOCK: ADDED NAVIGATION MENU -->
         <nav class="menu">
             <div class="dropdown">
-                <a href="#">Country division</a>
-                <div class="dropdown-content">
-                    <a href="#">View Data</a>
-                </div>
+                <a href="#countries-section">Country division</a>
             </div>
             <div class="dropdown">
-                <a href="#">Regional division</a>
-                <div class="dropdown-content">
-                    <a href="#">View Data</a>
-                </div>
+                <a href="#continents-section">Regional division</a>
             </div>
             <div class="dropdown">
-                <a href="#">Religion distribution</a>
-                <div class="dropdown-content">
-                    <a href="#">View Data</a>
-                </div>
+                <a href="#distribution-section">Religion distribution</a>
             </div>
             <div class="dropdown">
-                <a href="#">Global data</a>
-                <div class="dropdown-content">
-                    <a href="#" id="show-data-btn">View Data</a>
-                </div>
+                <a href="#" id="show-data-btn">Global data</a>
             </div>
         </nav>
 
-        <!-- CAPS LOCK: MOVED YEAR SLIDER TO BOTTOM-RIGHT CORNER, ALWAYS VISIBLE -->
         <div class="year-container" id="year-container">
             <div class="slider-container" id="controls">
                 <input type="range" id="year-slider">
@@ -53,8 +37,7 @@
             </div>
         </div>
 
-        <!-- CAPS LOCK: STRUCTURED SECTIONS WITH MODERN LAYOUT -->
-        <section>
+        <section id="countries-section">
             <h2>Religion division by countries</h2>
             <div class="section-container">
                 <div class="map-container">
@@ -67,37 +50,33 @@
             </div>
         </section>
 
-        <section>
+        <section id="continents-section">
             <h2>Religion division by continents</h2>
             <div class="section-container">
                 <div class="map-container">
                     <div class="info-box" id="info-box-continents">Select a continent</div>
                     <svg id="map-continents"></svg>
                 </div>
-                <div class="graph-container-continents">
+                <div class="graph-container graph-container-continents">
                     <svg id="graph-continents"></svg>
                 </div>
             </div>
         </section>
 
-        <section>
+        <section id="distribution-section">
             <h2>Religion distribution in world</h2>
             <div class="religion-dropdown-container">
-                <label for="religion-select">Select Religion:</label>
                 <select id="religion-select"></select>
             </div>
             <div class="map-container-distribution">
                 <svg id="map-countries-distribution"></svg>
             </div>
         </section>
-
-        <!-- CAPS LOCK: ADDED POPUP FOR GLOBAL DATA -->
-        <div id="popup" class="popup"></div>
-        <!-- CAPS LOCK: ADDED STICKY FOOTER AT BOTTOM -->
         <footer class="app-footer">
             <p>2025 © All rights reserved</p>
         </footer>
     </div>
+    <div id="popup" class="popup"></div>
 
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/button.js"></script>

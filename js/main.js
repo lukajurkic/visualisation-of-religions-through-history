@@ -50,8 +50,8 @@ let dataDisplayed = false;
     ==================================================
   */
   const height = window.innerHeight * 0.6;
-  const width = height * 2;
-  const fullHeight = window.innerHeight;
+  const width = height * 1.8;
+  const fullHeight = window.innerHeight*0.7;
   const fullWidth = height * 2.5;
   svgCountries.attr("width", width).attr("height", height);
   svgContinents.attr("width", width).attr("height", height);
