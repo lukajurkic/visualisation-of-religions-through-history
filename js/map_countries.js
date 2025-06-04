@@ -1,4 +1,4 @@
-export async function displayCountriesMap(svg, width, height, infoBox) {
+export async function displayCountriesMap(svg, width, height) {
   const zoomGroup = svg.append("g");
 
   try {
@@ -16,13 +16,7 @@ export async function displayCountriesMap(svg, width, height, infoBox) {
       .attr("d", path)
       .attr("fill", "#E6F0FA")
       .attr("stroke", "#999")
-      .attr("stroke-width", 0.5)
-      .on("mouseover", function (d) {
-        infoBox.text(d.properties.name || "Unknown Country");
-      })
-      .on("mouseout", function (d) {
-        infoBox.text("Select a country");
-      });
+      .attr("stroke-width", 0.5);
     return { zoomGroup, projection, nationalPaths };
   } catch (error) {
     console.error("Error loading GeoJSON for countries map:", error);

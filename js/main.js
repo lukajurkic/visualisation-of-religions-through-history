@@ -17,6 +17,8 @@ let selectedCountryCode = null;
 let selectedCountryName = null;
 let selectedReligionDistribution = null;
 let selectedRegions = null;
+let zoomedIn = false;
+let dataDisplayed = false;
 
 (async function main() {
   /*==================================================
@@ -58,7 +60,7 @@ let selectedRegions = null;
   .attr("preserveAspectRatio", "xMidYMid meet");
 
   /*==================================================
-    Data initialization
+    Initialization
     ==================================================
   */
   try {
@@ -81,6 +83,7 @@ let selectedRegions = null;
     .text(d => d);
   select.property("value", "Select religion");
   resetMapColors();
+  yearDisplay.text("Year: " + slider.node().value);
 
 
   /*==================================================
@@ -91,25 +94,44 @@ let selectedRegions = null;
   const { projectionRegional, regionalPaths } = await displayContinentsMap(svgContinents, width, height, infoBoxContinents);
   const { projectionDistribution, distributionPaths } = await displayMapDistribution(svgDistribution, fullWidth, fullHeight);
   initializeSlider(slider, yearDisplay, 1945, 2010);
-  yearDisplay.text("Year: " + slider.node().value);
-
+  
   /*==================================================
     Setting up event listeners
     ==================================================
   */
-  nationalPaths.on("click", function(event, d) {
-    event.stopPropagation();
-    processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider);
-  });
+  nationalPaths
+    .on("click", function(event, d) {
+      event.stopPropagation();
+      processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider);
+    })
+    .on("mouseover", function (event, d) {
+      infoBoxCountries.text(d.properties.name || "Unknown Country");
+    })
+    .on("mouseout", function (d) {
+      if(!zoomedIn) {
+        infoBoxCountries.text("Select a country");
+      }
+    });
 
-  regionalPaths.on("click", function(event, d) {
-    event.stopPropagation();
-    const continentName = d.properties.CONTINENT || "Unknown Continent";
-    const regions = regionMap[continentName] || continentName;
-    selectedRegions = regions;
-    displayRegionalData(regions, infoBoxContinents);
-    drawRegionalGraph(regions, slider.node().value);
-  });
+  regionalPaths
+    .on("click", function(event, d) {
+      event.stopPropagation();
+      const continentName = d.properties.CONTINENT || "Unknown Continent";
+      const regions = regionMap[continentName] || continentName;
+      dataDisplayed = true;
+      selectedRegions = regions;
+      displayRegionalData(regions, infoBoxContinents);
+      drawRegionalGraph(regions, slider.node().value);
+    })
+    .on("mouseover", function (event, d) {
+      infoBoxContinents.text(d.properties.CONTINENT || "Unknown Continent");
+    })
+    .on("mouseout", function (d) {
+      if(!dataDisplayed) {
+        infoBoxContinents.text("Select a continent");
+      }
+    });
+
 
   resetBtnCountries.on("click", function(event, d) {
     resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries);
@@ -126,6 +148,8 @@ let selectedRegions = null;
   svgContinents.on("click", function(event) {
     if (event.target.tagName === "svg") {
       selectedRegions = null;
+      dataDisplayed = false;
+      infoBoxContinents.text("Select a continent");
       resetRegionalGraph(chartSvgContinents)
     }
   });
@@ -166,7 +190,7 @@ let selectedRegions = null;
 function processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider) {
   console.info("Clicked on country:", d.properties.name);
   const pathElement = d3.select(event.currentTarget);
-  const bbox = pathElement.node().getBBox(); // Get the SVG bounding box in pixel space
+  const bbox = pathElement.node().getBBox();
 
   const { x, y, width: bboxWidth, height: bboxHeight } = bbox;
   if (bboxWidth === 0 || bboxHeight === 0) {
@@ -177,7 +201,6 @@ function processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries
   const centerX = x + bboxWidth / 2;
   const centerY = y + bboxHeight / 2;
   const translate = [width / 2 - scale * centerX, height / 2 - scale * centerY];
-  // Apply transform to zoomGroup
   zoomGroup.transition()
     .duration(750)
     .attr("transform", `translate(${translate}) scale(${scale})`)
@@ -187,17 +210,19 @@ function processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries
   const displayName = getDisplayName(countryName, year);
   selectedCountryCode = countryCode;
   selectedCountryName = displayName;
+  zoomedIn = true;
   displayNationalData(countryCode, displayName);
   drawGraph(countryCode, year);
   resetBtnCountries.style("display", "block");
 }
 
 function resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries) {
-  zoomGroup.transition().duration(750).attr("transform", ""); // Reset transform
+  zoomGroup.transition().duration(750).attr("transform", "");
   resetBtnCountries.style("display", "none");
   infoBoxCountries.text("Select a country");
   selectedCountryCode = null;
   selectedCountryName = null;
+  zoomedIn = false;
 }
 
 function resetMapColors() {

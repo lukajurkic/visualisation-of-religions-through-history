@@ -110,9 +110,7 @@ export function drawGraph(countryCode, year) {
     value: d.population, // or population %
   }));
 
-  console.info("BAR DATA NATIONAL:", barData);
-
-  drawBarChart({svg,data: barData,tooltip,margin,width,height,yLabel: "Number of People"});
+  drawBarChart({svg,data: barData, tooltip, margin, width, height, yLabel: "Number of People"});
 }
 
 export function resetGraph() {
