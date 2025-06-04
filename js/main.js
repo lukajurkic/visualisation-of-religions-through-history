@@ -117,7 +117,9 @@ let dataDisplayed = false;
       processClickNationalEvent(event, d, tooltip, resetBtnCountries, zoomGroup, width, height, slider);
     })
     .on("mouseover", function (event, d) {
-      infoBoxCountries.text(d.properties.name || "Unknown Country");
+      if(!zoomedIn) {
+        infoBoxCountries.text(d.properties.name || "Unknown Country");
+      }
     })
     .on("mouseout", function (d) {
       if(!zoomedIn) {
