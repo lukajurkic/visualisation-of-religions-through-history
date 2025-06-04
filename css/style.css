@@ -48,6 +48,38 @@ body {
   border-radius: 5px; /* CAPS LOCK: REDUCED BORDER RADIUS FOR COMPACT LOOK */
   margin: 0; /* CAPS LOCK: REMOVED MARGIN FOR TIGHT FIT */
 }
+.app-footer {
+  position: fixed; /* CAPS LOCK: FIXED TO STICK TO BOTTOM */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2c3e50; /* CAPS LOCK: DARK BACKGROUND FOR CONTRAST */
+  color: #ffffff; /* CAPS LOCK: WHITE TEXT FOR READABILITY */
+  text-align: center;
+  padding: 10px 0; /* CAPS LOCK: ADDED PADDING */
+  font-size: 12px; /* CAPS LOCK: SET SMALL FONT SIZE */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* CAPS LOCK: ADDED SHADOW FOR DEPTH */
+  z-index: 1000;
+}
+.back-to-top {
+  position: fixed; /* CAPS LOCK: FIXED TO STICK TO BOTTOM-LEFT */
+  bottom: 70px; /* CAPS LOCK: POSITIONED ABOVE FOOTER */
+  left: 20px; /* CAPS LOCK: ALIGNED TO BOTTOM-LEFT */
+  width: 40px; /* CAPS LOCK: SET WIDTH */
+  height: 40px; /* CAPS LOCK: SET HEIGHT */
+  background-color: #3498db; /* CAPS LOCK: MATCHED ACCENT COLOR */
+  color: #ffffff; /* CAPS LOCK: WHITE TEXT */
+  border: none; /* CAPS LOCK: REMOVED BORDER */
+  border-radius: 8%; /* CAPS LOCK: MADE CIRCULAR */
+  font-size: 20px; /* CAPS LOCK: SET FONT SIZE FOR ARROW */
+  cursor: pointer; /* CAPS LOCK: ADDED CURSOR */
+  z-index: 2000; /* CAPS LOCK: ENSURE IT STAYS ABOVE OTHER ELEMENTS */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* CAPS LOCK: ADDED SHADOW */
+  transition: background-color 0.3s ease; /* CAPS LOCK: ADDED TRANSITION */
+}
+.back-to-top:hover {
+  background-color: #2980b9; /* CAPS LOCK: CHANGED HOVER COLOR TO DARKER SHADE */
+}
 
 /*==================================================
   Map container styles 
@@ -385,21 +417,4 @@ section h2 {
   height: auto;
   background-color: #ffffff;
   display: block;
-}
-
-/*==================================================
-  Footer styles 
-  ==================================================
-*/
-.app-footer {
-  position: fixed; /* CAPS LOCK: FIXED TO STICK TO BOTTOM */
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #2c3e50; /* CAPS LOCK: DARK BACKGROUND FOR CONTRAST */
-  color: #ffffff; /* CAPS LOCK: WHITE TEXT FOR READABILITY */
-  text-align: center;
-  padding: 10px 0; /* CAPS LOCK: ADDED PADDING */
-  font-size: 12px; /* CAPS LOCK: SET SMALL FONT SIZE */
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* CAPS LOCK: ADDED SHADOW FOR DEPTH */
 }

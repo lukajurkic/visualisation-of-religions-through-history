@@ -12,7 +12,7 @@ import { updateCountryColors } from "./distribution_data.js";
 /*==================================================
     Global Variables
   ==================================================
-  */
+*/
 let selectedCountryCode = null;
 let selectedCountryName = null;
 let selectedReligionDistribution = null;
@@ -189,10 +189,10 @@ let dataDisplayed = false;
     })
 })();
 
-  /*==================================================
-    Functions
-    ==================================================
-  */
+/*==================================================
+  Functions
+  ==================================================
+*/
 function processClickNationalEvent(event, d, tooltip, resetBtnCountries, zoomGroup, width, height, slider) {
   console.info("Clicked on country:", d.properties.name);
   const pathElement = d3.select(event.currentTarget);
