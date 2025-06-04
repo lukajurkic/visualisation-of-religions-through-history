@@ -9,7 +9,6 @@ try {
 
 document.getElementById("show-data-btn").addEventListener("click", (event) => {
   event.stopPropagation();
-  // const year = document.getElementById("year-slider").value;
   const year = 1945;
   const popup = d3.select("#popup");
   const container = d3.select(".container");

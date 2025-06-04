@@ -129,7 +129,9 @@ let dataDisplayed = false;
       drawRegionalGraph(regions, slider.node().value, tooltip);
     })
     .on("mouseover", function (event, d) {
-      infoBoxContinents.text(d.properties.CONTINENT || "Unknown Continent");
+      if(!dataDisplayed) {
+        infoBoxContinents.text(d.properties.CONTINENT || "Unknown Continent");
+      }
     })
     .on("mouseout", function (d) {
       if(!dataDisplayed) {

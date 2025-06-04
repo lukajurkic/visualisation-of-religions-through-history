@@ -45,8 +45,8 @@
             </div>
         </nav>
 
-        <!-- CAPS LOCK: ADDED YEAR SLIDER CONTAINER -->
-        <div class="year-container">
+        <!-- CAPS LOCK: MOVED YEAR SLIDER TO BOTTOM-RIGHT CORNER, ALWAYS VISIBLE -->
+        <div class="year-container" id="year-container">
             <div class="slider-container" id="controls">
                 <input type="range" id="year-slider">
                 <div id="selected-year">Year: 1945</div>
@@ -59,7 +59,6 @@
             <div class="section-container">
                 <div class="map-container">
                     <div class="info-box" id="info-box-countries">Select a country</div>
-                    <button id="reset-btn-countries">Back to World View</button>
                     <svg id="map-countries"></svg>
                 </div>
                 <div class="graph-container">
@@ -94,9 +93,14 @@
 
         <!-- CAPS LOCK: ADDED POPUP FOR GLOBAL DATA -->
         <div id="popup" class="popup"></div>
+        <!-- CAPS LOCK: ADDED STICKY FOOTER AT BOTTOM -->
+        <footer class="app-footer">
+            <p>2025 © All rights reserved</p>
+        </footer>
     </div>
 
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/button.js"></script>
+    
 </body>
 </html>

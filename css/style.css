@@ -7,6 +7,9 @@ body {
   margin: 20px;
   background-color: #f5f8fa; /* CAPS LOCK: ADDED LIGHT BACKGROUND FOR CLEAN LOOK */
   color: #2c3e50; /* CAPS LOCK: CHANGED TO DARKER TEXT COLOR FOR BETTER READABILITY */
+  position: relative; /* CAPS LOCK: ADDED FOR FOOTER AND SLIDER POSITIONING */
+  min-height: 100vh; /* CAPS LOCK: ENSURE FULL HEIGHT FOR FOOTER */
+  padding-bottom: 60px; /* CAPS LOCK: ADDED PADDING FOR FOOTER SPACE */
 }
 .continer {
   margin: 20px;
@@ -40,10 +43,10 @@ body {
 }
 #controls {
   text-align: center;
-  padding: 15px; /* CAPS LOCK: ADDED PADDING FOR BETTER SPACING */
+  padding: 10px; /* CAPS LOCK: REDUCED PADDING FOR SMALLER SIZE */
   background-color: #ecf0f1; /* CAPS LOCK: ADDED LIGHT BACKGROUND FOR CONTRAST */
-  border-radius: 10px; /* CAPS LOCK: ADDED ROUNDED CORNERS */
-  margin: 20px 0; /* CAPS LOCK: ADDED MARGIN FOR SEPARATION */
+  border-radius: 5px; /* CAPS LOCK: REDUCED BORDER RADIUS FOR COMPACT LOOK */
+  margin: 0; /* CAPS LOCK: REMOVED MARGIN FOR TIGHT FIT */
 }
 
 /*==================================================
@@ -179,34 +182,37 @@ section h2 {
   ==================================================
 */
 .year-slider {
-  width: 100%;
+  width: 150px; /* CAPS LOCK: REDUCED WIDTH FOR SMALLER SIZE */
   display: block;
-  margin: 20px auto;
+  margin: 0; /* CAPS LOCK: REMOVED MARGIN */
 }
 .year-label {
   font-family: 'Poppins', sans-serif; /* CAPS LOCK: UPDATED FONT */
 }
 .slider-wrapper svg {
-  height: 40px; /* CAPS LOCK: INCREASED HEIGHT FOR BETTER VISIBILITY */
+  height: 30px; /* CAPS LOCK: REDUCED HEIGHT FOR COMPACT LOOK */
   display: block;
   width: 100%;
   background-color: #ecf0f1; /* CAPS LOCK: ADDED BACKGROUND */
   border-radius: 5px; /* CAPS LOCK: ADDED ROUNDED CORNERS */
 }
 .year-label {
-  font-size: 14px; /* CAPS LOCK: INCREASED FONT SIZE */
+  font-size: 12px; /* CAPS LOCK: REDUCED FONT SIZE FOR COMPACTNESS */
   fill: #2c3e50; /* CAPS LOCK: CHANGED COLOR TO MATCH THEME */
   font-family: 'Poppins', sans-serif;
   text-anchor: middle;
 }
 .year-container {
-  position: sticky;
-  top: 0;
+  position: fixed; /* CAPS LOCK: CHANGED TO FIXED FOR ALWAYS VISIBLE */
+  bottom: 70px; /* CAPS LOCK: POSITIONED ABOVE FOOTER */
+  right: 20px; /* CAPS LOCK: ALIGNED TO BOTTOM-RIGHT */
+  width: 150px; /* CAPS LOCK: SET WIDTH FOR CONSISTENCY */
   background-color: #ffffff; /* CAPS LOCK: CHANGED TO WHITE FOR CLEANER LOOK */
-  z-index: 1000;
-  padding: 15px; /* CAPS LOCK: INCREASED PADDING */
-  border-bottom: 1px solid #bdc3c7; /* CAPS LOCK: CHANGED BORDER COLOR */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* CAPS LOCK: ADDED SHADOW */
+  z-index: 2000; /* CAPS LOCK: ENSURE IT STAYS ABOVE OTHER ELEMENTS */
+  padding: 10px; /* CAPS LOCK: REDUCED PADDING */
+  border: 1px solid #bdc3c7; /* CAPS LOCK: ADDED BORDER */
+  border-radius: 8px; /* CAPS LOCK: ADDED ROUNDED CORNERS */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* CAPS LOCK: ADDED SHADOW */
 }
 
 /*==================================================
@@ -362,21 +368,6 @@ section h2 {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* CAPS LOCK: ADDED SHADOW */
 }
 
-#reset-btn-countries {
-  padding: 10px 20px; /* CAPS LOCK: INCREASED PADDING */
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #3498db; /* CAPS LOCK: CHANGED TO MODERN BLUE */
-  color: white;
-  border: none;
-  border-radius: 8px; /* CAPS LOCK: INCREASED BORDER RADIUS */
-  font-family: 'Poppins', sans-serif; /* CAPS LOCK: UPDATED FONT */
-  display: none;
-  transition: background-color 0.3s ease; /* CAPS LOCK: ADDED TRANSITION */
-}
-#reset-btn-countries:hover {
-  background-color: #2980b9; /* CAPS LOCK: CHANGED HOVER COLOR TO DARKER SHADE */
-}
 #graph-countries {
   width: 100%;
   height: 100%;
@@ -399,4 +390,21 @@ section h2 {
   height: auto;
   background-color: #ffffff;
   display: block;
+}
+
+/*==================================================
+  Footer styles 
+  ==================================================
+*/
+.app-footer {
+  position: fixed; /* CAPS LOCK: FIXED TO STICK TO BOTTOM */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2c3e50; /* CAPS LOCK: DARK BACKGROUND FOR CONTRAST */
+  color: #ffffff; /* CAPS LOCK: WHITE TEXT FOR READABILITY */
+  text-align: center;
+  padding: 10px 0; /* CAPS LOCK: ADDED PADDING */
+  font-size: 12px; /* CAPS LOCK: SET SMALL FONT SIZE */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* CAPS LOCK: ADDED SHADOW FOR DEPTH */
 }
