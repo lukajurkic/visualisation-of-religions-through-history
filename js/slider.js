@@ -12,7 +12,7 @@ export function initializeSlider(slider, yearDisplay, minYear, maxYear) {
     .attr("value", maxYear)
     .attr("step", 5);
 
-  yearDisplay.text(`Year: ${minYear}`);
+  yearDisplay.text(`Year: ${maxYear}`);
 
   const parent = d3.select(slider.node().parentNode);
   const wrapper = parent.append("div")

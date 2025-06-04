@@ -84,7 +84,6 @@ let dataDisplayed = false;
     .text(d => d);
   select.property("value", "Select religion");
   resetMapColors();
-  yearDisplay.text("Year: " + slider.node().value);
   const tooltip = d3.select("body")
     .append("div")
     .attr("class", "tooltip");

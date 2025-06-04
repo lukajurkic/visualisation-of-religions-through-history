@@ -9,7 +9,7 @@ try {
 
 document.getElementById("show-data-btn").addEventListener("click", (event) => {
   event.stopPropagation();
-  const year = 1945;
+  const year = d3.select("#year-slider").node().value;
   const popup = d3.select("#popup");
   const container = d3.select(".container");
 
