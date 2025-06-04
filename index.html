@@ -7,13 +7,10 @@
   <link rel="stylesheet" href="css/style_continents_section.css" />
   <link rel="stylesheet" href="css/style_distribution_section.css" />
   <link rel="stylesheet" href="css/style_countries_section.css" />
-  <link rel="stylesheet" href="css/popup_global_data.css" />
-  <link rel="stylesheet" href="css/infobox.css" />
-  <link rel="stylesheet" href="css/graph_area.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-  <div style="text-align: center; margin-top: 20px;">
+  <div class="title">
     <h1>Religious Division in the Past</h1>
     <div class="menu">
       <div>
@@ -32,58 +29,58 @@
   </div>
   
   <!-- Sections with subtitles -->
-  <div class="container" style="margin: 20px;">
+  <div class="container">
     <div class="year-container">
       <h2 id="selected-year">Year: 1945</h2>
       <div class="slider-container">
-        <input type="range" id="year-slider">
+        <input type="range" class="year-slider" id="year-slider">
       </div>
     </div>
 
     <section id="section1">
-      <h2 style="text-align: center;">Religion division by countries</h2>
-      <div class="section1-container" style="display: flex; justify-content: space-between;">
+      <h2 class="subtitle">Religion division by countries</h2>
+      <div class="section-container">
         <div class="map-container">
-          <div id="info-box-countries">Select a country</div>
-          <svg id="map-countries" style="border: 2px solid #999;"></svg>
-          <button id="reset-btn-countries" style="display:none;">Back to World View</button>
+          <div class="info-box" id="info-box-countries">Select a country</div>
+          <svg id="map-countries"></svg>
+          <button id="reset-btn-countries">Back to World View</button>
         </div>
         <div class="graph-container">
-          <h3 style="text-align: center;">Country Data Visualization</h3>
+          <h3 class="subtitle">Country Data Visualization</h3>
           <svg id="graph-countries"></svg>
         </div>
       </div>
     </section>
 
     <section id="section2">
-      <h2 style="text-align: center;">Religion division by continents</h2>
-      <div class="section2-container" style="display: flex; justify-content: space-between;">
+      <h2 class="subtitle">Religion division by continents</h2>
+      <div class="section-container">
         <div class="graph-container graph-container-continents">
-          <h3 style="text-align: center;">Continent Data Visualization</h3>
+          <h3 class="subtitle">Continent Data Visualization</h3>
           <svg id="graph-continents"></svg>
         </div>
         <div class="map-container">
-          <div id="info-box-continents">Select a continent</div>
-          <svg id="map-continents" style="border: 2px solid #999;"></svg>
+          <div class="info-box" id="info-box-continents">Select a continent</div>
+          <svg id="map-continents"></svg>
         </div>
       </div>
       
     </section>
 
   <section id="section3">
-    <h2 style="text-align: center;">Religion distribution in world</h2>
-    <div class="religion-dropdown-container" style="text-align: center; margin-top: 10px;">
+    <h2 class="subtitle">Religion distribution in world</h2>
+    <div class="religion-dropdown-container">
       <label for="religion-select">Select Religion:</label>
       <select id="religion-select"></select>
     </div>
-    <div class="section3-container" style="display: flex; justify-content: space-between;">
+    <div class="section3-container">
         <div class="map-container-distribution">
-          <svg id="map-countries-distribution" style="border: 2px solid #999;"></svg>
+          <svg id="map-countries-distribution"></svg>
         </div>
       </div>
   </section>
   </div>
-  <div id="popup"></div>
+  <div id="popup" class="popup"></div>
 
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/button.js"></script>

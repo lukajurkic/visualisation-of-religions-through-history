@@ -21,11 +21,8 @@ export async function displayContinentsMap(svg, width, height) {
     const regionalPaths = svg.selectAll("path")
       .data(filteredFeatures, d => d.properties.CONTINENT)
       .join("path")
-      .attr("class", "continent")
-      .attr("d", path)
-      .attr("fill", "#E6F0FA") // Light blue fill
-      .attr("stroke", "#999") // Grey border
-      .attr("stroke-width", 0.5);
+      .attr("class", "map")
+      .attr("d", path);
 
     return { projection, regionalPaths }; // Return group, projection, and paths for zoom handling
 };

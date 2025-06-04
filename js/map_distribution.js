@@ -10,11 +10,8 @@ export async function displayMapDistribution(svg, width, height) {
         const distributionPahts = svg.selectAll("path")
         .data(geoData.features)
         .join("path")
-        .attr("class", "continent")
-        .attr("d", path)
-        .attr("fill", "#E6F0FA") // Light blue fill
-        .attr("stroke", "#999") // Grey border
-        .attr("stroke-width", 0.5);
+        .attr("class", "map")
+        .attr("d", path);
 
         return { projectionDistribution, distributionPahts };
     } catch (error) {

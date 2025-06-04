@@ -12,11 +12,8 @@ export async function displayCountriesMap(svg, width, height) {
     const nationalPaths = zoomGroup.selectAll("path")
       .data(geoData.features)
       .join("path")
-      .attr("class", "country")
-      .attr("d", path)
-      .attr("fill", "#E6F0FA")
-      .attr("stroke", "#999")
-      .attr("stroke-width", 0.5);
+      .attr("class", "map")
+      .attr("d", path);
     return { zoomGroup, projection, nationalPaths };
   } catch (error) {
     console.error("Error loading GeoJSON for countries map:", error);

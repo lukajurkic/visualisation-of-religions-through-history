@@ -86,16 +86,7 @@ let dataDisplayed = false;
   yearDisplay.text("Year: " + slider.node().value);
   const tooltip = d3.select("body")
     .append("div")
-    .attr("class", "tooltip") 
-    .style("position", "absolute")
-    .style("background", "#fff")
-    .style("border", "1px solid #999")
-    .style("padding", "5px")
-    .style("border-radius", "3px")
-    .style("pointer-events", "none")
-    .style("opacity", 0)
-    .style("font-family", "Arial, sans-serif")
-    .style("font-size", "12px");
+    .attr("class", "tooltip");
 
 
   /*==================================================
