@@ -3,18 +3,6 @@ import { columnMapping, drawBarChart } from './utils.js';
 let regionalData = [];
 let svg, width, height, margin, chartWidth, chartHeight;
 
-// CREATE TOOLTIP DIV
-const tooltip = d3.select("body")
-  .append("div")
-  .attr("class", "regionalTooltip")
-  .style("position", "absolute")
-  .style("background", "#fff")
-  .style("border", "1px solid #999")
-  .style("padding", "5px")
-  .style("border-radius", "3px")
-  .style("pointer-events", "none")
-  .style("opacity", 0);
-
 export function initRegionalGraph(data) {
     regionalData = data.map(row => {
     const filteredRow = {};
@@ -44,7 +32,7 @@ export function initRegionalGraph(data) {
   return true;
 }
 
-export function drawRegionalGraph(continentCode, year) {
+export function drawRegionalGraph(continentCode, year, tooltip) {
     svg.selectAll("*").remove();
 
     if (!continentCode || !year) {

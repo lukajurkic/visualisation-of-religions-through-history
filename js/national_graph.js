@@ -3,17 +3,6 @@ import { columnMapping, drawBarChart } from './utils.js';
 let nationalData = [];
 let svg, width, height, margin, chartWidth, chartHeight;
 
-const tooltip = d3.select("body")
-  .append("div")
-  .attr("class", "tooltip")
-  .style("position", "absolute")
-  .style("background", "#fff")
-  .style("border", "1px solid #999")
-  .style("padding", "5px")
-  .style("border-radius", "3px")
-  .style("pointer-events", "none")
-  .style("opacity", 0);
-
 export function initGraph(data) {
   nationalData = data.map(row => {
     const filteredRow = {};
@@ -43,7 +32,7 @@ export function initGraph(data) {
   return true;
 }
 
-export function drawGraph(countryCode, year) {
+export function drawGraph(countryCode, year, tooltip) {
   svg.selectAll("*").remove();
 
   if (!countryCode || !year) {

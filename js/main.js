@@ -11,7 +11,7 @@ import { updateCountryColors } from "./distribution_data.js";
 
 /*==================================================
     Global Variables
-    ==================================================
+  ==================================================
   */
 let selectedCountryCode = null;
 let selectedCountryName = null;
@@ -84,6 +84,18 @@ let dataDisplayed = false;
   select.property("value", "Select religion");
   resetMapColors();
   yearDisplay.text("Year: " + slider.node().value);
+  const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "tooltip") 
+    .style("position", "absolute")
+    .style("background", "#fff")
+    .style("border", "1px solid #999")
+    .style("padding", "5px")
+    .style("border-radius", "3px")
+    .style("pointer-events", "none")
+    .style("opacity", 0)
+    .style("font-family", "Arial, sans-serif")
+    .style("font-size", "12px");
 
 
   /*==================================================
@@ -102,7 +114,7 @@ let dataDisplayed = false;
   nationalPaths
     .on("click", function(event, d) {
       event.stopPropagation();
-      processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider);
+      processClickNationalEvent(event, d, tooltip, resetBtnCountries, zoomGroup, width, height, slider);
     })
     .on("mouseover", function (event, d) {
       infoBoxCountries.text(d.properties.name || "Unknown Country");
@@ -121,7 +133,7 @@ let dataDisplayed = false;
       dataDisplayed = true;
       selectedRegions = regions;
       displayRegionalData(regions, infoBoxContinents);
-      drawRegionalGraph(regions, slider.node().value);
+      drawRegionalGraph(regions, slider.node().value, tooltip);
     })
     .on("mouseover", function (event, d) {
       infoBoxContinents.text(d.properties.CONTINENT || "Unknown Continent");
@@ -158,13 +170,13 @@ let dataDisplayed = false;
     const year = this.value;
       yearDisplay.text("Year: " + year);
       if (selectedCountryCode && selectedCountryName) {
-        drawGraph(selectedCountryCode, year);
+        drawGraph(selectedCountryCode, year, tooltip);
         displayNationalData(selectedCountryCode, selectedCountryName, year);
       } else if(selectedReligionDistribution) {
           updateCountryColors(nationalData, selectedReligionDistribution, slider.node().value);
       } else if(selectedRegions) {
           displayRegionalData(selectedRegions, infoBoxContinents);
-          drawRegionalGraph(selectedRegions, slider.node().value);
+          drawRegionalGraph(selectedRegions, slider.node().value, tooltip);
       } else{
         console.warn("NO COUNTRY SELECTED, SKIPPING GRAPH AND INFOBOX UPDATE");
       }
@@ -175,19 +187,18 @@ let dataDisplayed = false;
       console.log("Religion selected:", religionKey);
       if (religionKey && religionKey !== "Select religion") {
         selectedReligionDistribution = religionKey;
-        updateCountryColors(nationalData, religionKey, slider.node().value);
+        updateCountryColors(nationalData, religionKey, slider.node().value, tooltip);
       } else {
         resetMapColors();
       }
     })
-
 })();
 
   /*==================================================
     Functions
     ==================================================
   */
-function processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries, zoomGroup, width, height, slider) {
+function processClickNationalEvent(event, d, tooltip, resetBtnCountries, zoomGroup, width, height, slider) {
   console.info("Clicked on country:", d.properties.name);
   const pathElement = d3.select(event.currentTarget);
   const bbox = pathElement.node().getBBox();
@@ -212,7 +223,7 @@ function processClickNationalEvent(event, d, infoBoxCountries, resetBtnCountries
   selectedCountryName = displayName;
   zoomedIn = true;
   displayNationalData(countryCode, displayName);
-  drawGraph(countryCode, year);
+  drawGraph(countryCode, year, tooltip);
   resetBtnCountries.style("display", "block");
 }
 

@@ -5,20 +5,7 @@ const reverseColumnMapping = Object.entries(columnMapping).reduce((acc, [key, va
     return acc;
 }, {});
 
-const tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip-distribution") // UNIQUE CLASS TO AVOID CONFLICTS
-    .style("position", "absolute")
-    .style("background", "#fff")
-    .style("border", "1px solid #999")
-    .style("padding", "5px")
-    .style("border-radius", "3px")
-    .style("pointer-events", "none")
-    .style("opacity", 0)
-    .style("font-family", "Arial, sans-serif")
-    .style("font-size", "12px");
-
-export function updateCountryColors(nationalData, selectedReligion, year) {
+export function updateCountryColors(nationalData, selectedReligion, year, tooltip) {
     const column = reverseColumnMapping[selectedReligion];
     if (!column) {
         console.error("INVALID RELIGION SELECTED:", selectedReligion);
