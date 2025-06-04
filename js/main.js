@@ -36,7 +36,6 @@ let selectedRegions = null;
   const svgDistribution = d3.select("#map-countries-distribution");
   const resetBtnCountries = d3.select("#reset-btn-countries");
   const infoBoxCountries = d3.select("#info-box-countries");
-  const resetBtnContinents = d3.select("#reset-btn-continents");
   const infoBoxContinents = d3.select("#info-box-continents");
   const slider = d3.select("#year-slider");
   const yearDisplay = d3.select("#selected-year");
@@ -88,10 +87,11 @@ let selectedRegions = null;
     Function calls
     ==================================================
   */
-  const { zoomGroup, projectionNational, nationalPaths } = await displayCountriesMap(svgCountries, width, height);
-  const { projectionRegional, regionalPaths } = await displayContinentsMap(svgContinents, width, height);
+  const { zoomGroup, projectionNational, nationalPaths } = await displayCountriesMap(svgCountries, width, height, infoBoxCountries);
+  const { projectionRegional, regionalPaths } = await displayContinentsMap(svgContinents, width, height, infoBoxContinents);
   const { projectionDistribution, distributionPaths } = await displayMapDistribution(svgDistribution, fullWidth, fullHeight);
   initializeSlider(slider, yearDisplay, 1945, 2010);
+  yearDisplay.text("Year: " + slider.node().value);
 
   /*==================================================
     Setting up event listeners
@@ -126,7 +126,6 @@ let selectedRegions = null;
   svgContinents.on("click", function(event) {
     if (event.target.tagName === "svg") {
       selectedRegions = null;
-      resetBtn(svgContinents, resetBtnContinents, infoBoxContinents);
       resetRegionalGraph(chartSvgContinents)
     }
   });

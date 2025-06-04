@@ -96,9 +96,9 @@ export function drawRegionalGraph(continentCode, year) {
   }
   const row = dataForContinent[0];
   const entries = Object.entries(row).filter(([key]) => 
+    key !== "name" &&
     key !== "year" && 
     key !== "region" && 
-    key !== "name" && 
     key !== "version" && 
     key !== "sourcecode" && 
     !key.includes("total") && 
@@ -135,112 +135,6 @@ export function drawRegionalGraph(continentCode, year) {
   }));
   console.info("BAR DATA REGIONAL:", barData);
   drawBarChart({svg,data: barData,tooltip,margin,width,height,yLabel: "Number of People"});
-
-
-
-  // // SET UP SCALES
-  // const x = d3.scaleBand()
-  //   .domain(religionData.map(d => d.religion))
-  //   .range([margin.left, chartWidth + margin.left])
-  //   .padding(0.1);
-
-  //   const maxPopulation = d3.max(religionData, d => Number(d.population));
-  // console.info("MAX POPULATION:", maxPopulation);
-  // if (isNaN(maxPopulation) || maxPopulation <= 0) {
-  //   console.error("INVALID MAX POPULATION:", maxPopulation);
-  //   svg.append("text")
-  //     .attr("x", width / 2)
-  //     .attr("y", height / 2)
-  //     .attr("text-anchor", "middle")
-  //     .style("font-size", "14px")
-  //     .text("Invalid population data");
-  //   return;
-  // }
-
-  //   const y = d3.scaleLinear()
-  //       .domain([0, maxPopulation])
-  //       .range([chartHeight + margin.top, margin.top]);
-  //       console.info("Y DOMAIN:", y.domain());
-
-  //   const numBars = religionData.length;
-
-  //   const colorScale = d3.scaleSequential()
-  //   .domain([0, numBars - 1])
-  //   .interpolator(t => d3.interpolateBlues(0.3 + t * 0.7));
-
-  //   // Assign a color to each religion
-  //   const religionColorMap = {};
-  //   religionData.forEach((d, i) => {
-  //   religionColorMap[d.religion] = colorScale(i);
-  //   });
-
-
-  // // CREATE CHART GROUP
-  // const chart = svg.append("g")
-  //   .attr("transform", `translate(0, 0)`);
-
-  // // DRAW BARS
-  //   chart.selectAll(".bar")
-  //     .data(religionData)
-  //     .join("rect")
-  //     .attr("class", "bar")
-  //     .attr("x", d => {
-  //       const xVal = x(d.religion);
-  //       if (isNaN(xVal)) console.error("INVALID X VALUE:", d.religion);
-  //       return xVal;
-  //     })
-  //     .attr("y", d => {
-  //       const yVal = y(d.population);
-  //       if (isNaN(yVal)) console.error("INVALID Y VALUE:", d.population);
-  //       return yVal;
-  //     })
-  //     .attr("width", x.bandwidth())
-  //     .attr("height", d => {
-  //       const h = chartHeight + margin.top - y(d.population);
-  //       if (isNaN(h)) console.error("INVALID HEIGHT:", d.population);
-  //       return h;
-  //     })
-  //     .attr("fill", d => religionColorMap[d.religion])
-  //     .attr("data-original-fill", d => religionColorMap[d.religion]) // store original color
-  //       .on("mouseover", function(event, d) {
-  //         d3.select(this)
-  //             .attr("fill", "orange"); // highlight
-
-  //         tooltip
-  //             .style("opacity", 1)
-  //             .html(`${d.religion}: ${formatNumber(d.population)}`)
-  //             .style("left", (event.pageX + 10) + "px")
-  //             .style("top", (event.pageY - 10) + "px");
-  //       })
-  //       .on("mouseout", function(event, d) {
-  //         const original = d3.select(this).attr("data-original-fill");
-  //         d3.select(this).attr("fill", original); // safely restore
-  //         tooltip.style("opacity", 0);
-  //       });
-
-
-  //   chart.append("g")
-  //       .attr("class", "x-axis")
-  //       .attr("transform", `translate(0, ${chartHeight + margin.top})`)
-  //       .call(d3.axisBottom(x))
-  //       .selectAll("text")
-  //       .style("text-anchor", "end")
-  //       .attr("dx", "-.8em")
-  //       .attr("dy", ".15em")
-  //       .attr("transform", "rotate(-45)");
-
-  // // ADD Y-AXIS
-  // chart.append("g")
-  //   .attr("class", "y-axis")
-  //   .attr("transform", `translate(${margin.left}, 0)`)
-  //   .call(d3.axisLeft(y).tickFormat(d3.format(".2s")))
-  //   .append("text")
-  //   .attr("fill", "#000")
-  //   .attr("transform", "rotate(-90)")
-  //   .attr("y", 6)
-  //   .attr("dy", "-3em")
-  //   .attr("text-anchor", "end")
-  //   .text("Number of People");
 }
 
 export function resetRegionalGraph() {
@@ -250,5 +144,5 @@ export function resetRegionalGraph() {
         .attr("y", height / 2)
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
-        .text("Select a continent to view religion data");
+        .text("");
 }

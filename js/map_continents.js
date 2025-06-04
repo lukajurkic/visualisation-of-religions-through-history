@@ -1,4 +1,4 @@
-export async function displayContinentsMap(svg, width, height) {
+export async function displayContinentsMap(svg, width, height, infoBox) {
   // Load GeoJSON data 
   let geoData;
   try {
@@ -19,13 +19,19 @@ export async function displayContinentsMap(svg, width, height) {
 
     // Draw the map
     const regionalPaths = svg.selectAll("path")
-      .data(filteredFeatures)
+      .data(filteredFeatures, d => d.properties.CONTINENT)
       .join("path")
       .attr("class", "continent")
       .attr("d", path)
       .attr("fill", "#E6F0FA") // Light blue fill
       .attr("stroke", "#999") // Grey border
-      .attr("stroke-width", 0.5);
+      .attr("stroke-width", 0.5)
+      .on("mouseover", function (event, d) {
+        infoBox.text(d.properties.CONTINENT || "Unknown Continent");
+      })
+      .on("mouseout", function (d) {
+        infoBox.text("Select a continent");
+      });
 
     return { projection, regionalPaths }; // Return group, projection, and paths for zoom handling
 };
