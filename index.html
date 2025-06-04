@@ -81,21 +81,6 @@
         <button id="back-to-top" class="back-to-top">↑</button>
 
     <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/button.js"></script>
-    <script>
-        // CAPS LOCK: ADDED BACK TO TOP FUNCTIONALITY WITH SCROLL CHECK
-        const backToTopButton = document.getElementById('back-to-top');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 0) {
-                backToTopButton.style.display = 'block';
-            } else {
-                backToTopButton.style.display = 'none';
-            }
-        });
-        backToTopButton.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
-    
+    <script type="module" src="js/button.js"></script>    
 </body>
 </html>

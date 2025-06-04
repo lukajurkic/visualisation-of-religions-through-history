@@ -44,6 +44,7 @@ let dataDisplayed = false;
   const chartSvgCountries = d3.select("#graph-countries");
   const chartSvgContinents = d3.select("#graph-continents");
   const select = d3.select("#religion-select");
+  const backToTopButton = document.getElementById('back-to-top');
 
   /*==================================================
     Size calculating
@@ -187,6 +188,18 @@ let dataDisplayed = false;
         resetMapColors();
       }
     })
+
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 0) {
+          backToTopButton.style.display = 'block';
+      } else {
+          backToTopButton.style.display = 'none';
+      }
+    });
+    backToTopButton.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        backToTopButton.style.display = 'none';
+    });
 })();
 
 /*==================================================

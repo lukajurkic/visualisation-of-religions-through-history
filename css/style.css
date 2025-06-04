@@ -76,6 +76,7 @@ body {
   z-index: 2000; /* CAPS LOCK: ENSURE IT STAYS ABOVE OTHER ELEMENTS */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* CAPS LOCK: ADDED SHADOW */
   transition: background-color 0.3s ease; /* CAPS LOCK: ADDED TRANSITION */
+  display: none;
 }
 .back-to-top:hover {
   background-color: #2980b9; /* CAPS LOCK: CHANGED HOVER COLOR TO DARKER SHADE */
