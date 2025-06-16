@@ -112,7 +112,7 @@ export const religionKeysOrdered = [
   "syncgen",
   "anmgen",
   "nonrelig",
-  "othrgen" // final key
+  "othrgen"
 ];
 export const religionList = ["Select religion", ...religionKeysOrdered.map(key => columnMapping[key])];
 export const regionMap = {
@@ -332,42 +332,19 @@ export const historicalCountryMap = {
   "Slovenia": { historicalCode: "YUG", dissolutionYear: 1991 },
   "Macedonia": { historicalCode: "YUG", dissolutionYear: 1991 },
   "Germany": { historicalCode: "DEW", dissolutionYear: 1990 }, // West Germany
-  // Add more mappings (e.g., East Germany "GDR") as needed
 };
 
 export function getCountryCode(name, year) {
   const modernCode = countryCodeMap[name] || name;
   const historical = historicalCountryMap[name];
+  if (!historical) { return modernCode; }
+  if (year < historical.dissolutionYear) { return historical.historicalCode; }
 
-  if (!historical) {
-    // console.log(`No historical mapping for ${name}, using modern code: ${modernCode}`);
-    return modernCode;
-  }
-
-  if (year < historical.dissolutionYear) {
-    // console.log(`Year ${year} < dissolution ${historical.dissolutionYear} for ${name}, using historical code: ${historical.historicalCode}`);
-    return historical.historicalCode;
-  }
-
-  // At or after dissolution, check for modern data first
   const modernDataExists = window.nationalData && window.nationalData.hasDataForCountry(modernCode, year);
-  // console.log(`Checking modern data for ${modernCode} in ${year}: ${modernDataExists}`);
+  if (modernDataExists) { return modernCode; }
 
-  if (modernDataExists) {
-    // console.log(`Modern data exists for ${modernCode} in ${year}, using modern code`);
-    return modernCode;
-  }
-
-  // Fallback to historical data if modern data isn't available
   const historicalDataExists = window.nationalData && window.nationalData.hasDataForCountry(historical.historicalCode, year);
-  // console.log(`Checking historical data for ${historical.historicalCode} in ${year}: ${historicalDataExists}`);
-
-  if (historicalDataExists) {
-    // console.log(`No modern data, using historical code ${historical.historicalCode} for ${name} in ${year}`);
-    return historical.historicalCode;
-  }
-
-  // console.log(`No data available for ${name} in ${year}, defaulting to modern code: ${modernCode}`);
+  if (historicalDataExists) { return historical.historicalCode; }
   return modernCode;
 }
 
@@ -392,7 +369,6 @@ export function getDisplayName(name, year) {
   return name;
 }
 
-// Helper function to map historical codes to names (expand as needed)
 function historicalCodeToName(code) {
   const historicalNames = {
     "CSK": "Czechoslovakia",
@@ -403,7 +379,6 @@ function historicalCodeToName(code) {
   return historicalNames[code] || code;
 }
   
-  // Custom function to format numbers with spaces and 3 decimal places
  export function formatNumber(value) {
     // Remove commas from the input string
     let cleanValue = value.toString();
@@ -414,25 +389,19 @@ function historicalCodeToName(code) {
         return value;
       }
     }
-    // Check if the cleaned value is a number
     const num = parseFloat(cleanValue);
     if (isNaN(num)) {
-      return value; // Return raw value if not a number (e.g., "N/A")
+      return value;
     }
   
-    // Check if the number has a decimal part (e.g., "12.345")
     const hasDecimal = cleanValue.includes('.');
     
     if (hasDecimal) {
-      // Format to 3 decimal places
       const formattedDecimal = num.toFixed(3);
-      // Split into integer and decimal parts
       const [integerPart, decimalPart] = formattedDecimal.split('.');
-      // Add spaces to integer part (e.g., "1234567" → "1 234 567")
       const spacedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
       return `${spacedInteger}.${decimalPart}`;
     } else {
-      // For integers, add spaces as thousand separators
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
     }
   }

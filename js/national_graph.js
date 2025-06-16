@@ -99,8 +99,8 @@ export function drawGraph(countryCode, year, tooltip) {
   }
 
   const barData = religionData.map(d => ({
-    label: d.religion,   // or whatever label
-    value: d.population, // or population %
+    label: d.religion,
+    value: d.population, 
   }));
 
   drawBarChart({svg,data: barData, tooltip, margin, width, height, yLabel: "Number of People"});

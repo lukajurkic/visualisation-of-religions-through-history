@@ -48,25 +48,22 @@ export function drawRegionalGraph(continentCode, year, tooltip) {
 
   let dataForContinent;
     if (Array.isArray(continentCode)) {
-    // Filter all matching regions for given year
     const filteredData = regionalData.filter(d =>
         continentCode.includes(d.region) && d.year === year
     );
-    // Sum values by key
     const mergedData = filteredData.reduce((acc, curr) => {
         Object.entries(curr).forEach(([key, value]) => {
         if (key !== "region" && key !== "year") {
             const numericValue = parseFloat(String(value).replace(/,/g, ''));
             acc[key] = (acc[key] || 0) + (isNaN(numericValue) ? 0 : numericValue);
         } else {
-            acc[key] = curr[key]; // keep region/year from last entry (optional)
+            acc[key] = curr[key];
         }
         });
         return acc;
     }, {});
-    dataForContinent = [mergedData]; // wrap in array to keep structure consistent
+    dataForContinent = [mergedData];
     } else {
-    // Single region case
     dataForContinent = regionalData.filter(
         d => d.region === continentCode && d.year === year
     );
@@ -118,8 +115,8 @@ export function drawRegionalGraph(continentCode, year, tooltip) {
   }
 
   const barData = religionData.map(d => ({
-    label: d.religion,   // or whatever label
-    value: d.population, // or population %
+    label: d.religion, 
+    value: d.population, 
   }));
   console.info("BAR DATA REGIONAL:", barData);
   drawBarChart({svg,data: barData,tooltip,margin,width,height,yLabel: "Number of People"});

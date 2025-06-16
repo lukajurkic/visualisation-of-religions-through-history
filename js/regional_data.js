@@ -1,4 +1,3 @@
-// regionalData.js
 import { columnMapping, formatNumber } from './utils.js';
 
 let regionalData = [];

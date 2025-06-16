@@ -95,7 +95,7 @@ let dataDisplayed = false;
 
 
   /*==================================================
-    Function calls
+    Function calls for maps and slider
     ==================================================
   */
   const { zoomGroup, projectionNational, nationalPaths } = await displayCountriesMap(svgCountries, width, height, infoBoxCountries);

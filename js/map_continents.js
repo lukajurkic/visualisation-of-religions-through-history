@@ -7,22 +7,18 @@ export async function displayContinentsMap(svg, width, height) {
     console.error("Failed to load GeoJSON:", error);
     throw error;
   }
-    // Filter out Antarctica
     const filteredFeatures = geoData.features.filter(f => f.properties.CONTINENT !== "Antarctica");
 
-    // Set up the projection
     const projection = d3.geoNaturalEarth1()
       .fitSize([width, height], { type: "FeatureCollection", features: filteredFeatures  });
 
-    // Create the path generator
     const path = d3.geoPath().projection(projection);
 
-    // Draw the map
     const regionalPaths = svg.selectAll("path")
       .data(filteredFeatures, d => d.properties.CONTINENT)
       .join("path")
       .attr("class", "map")
       .attr("d", path);
 
-    return { projection, regionalPaths }; // Return group, projection, and paths for zoom handling
+    return { projection, regionalPaths };
 };
