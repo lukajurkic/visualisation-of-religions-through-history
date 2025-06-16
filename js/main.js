@@ -14,6 +14,7 @@ import { updateCountryColors } from "./distribution_data.js";
   ==================================================
 */
 let selectedCountryCode = null;
+let selectedCountryDisplayName = null;
 let selectedCountryName = null;
 let selectedReligionDistribution = null;
 let selectedRegions = null;
@@ -180,9 +181,13 @@ let dataDisplayed = false;
    slider.on("input", function () {
     const year = this.value;
       yearDisplay.text("Year: " + year);
-      if (selectedCountryCode && selectedCountryName) {
+      if (selectedCountryCode && selectedCountryDisplayName) {
+        const countryCode = getCountryCode(selectedCountryName, year);
+        const displayName = getDisplayName(selectedCountryName, year);
+        selectedCountryCode = countryCode;
+        selectedCountryDisplayName = displayName;
         drawGraph(selectedCountryCode, year, tooltip);
-        displayNationalData(selectedCountryCode, selectedCountryName, year);
+        displayNationalData(selectedCountryCode, selectedCountryDisplayName, year);
       }
       if(selectedReligionDistribution) {
           updateCountryColors(nationalData, selectedReligionDistribution, slider.node().value, tooltip);
@@ -191,7 +196,7 @@ let dataDisplayed = false;
           displayRegionalData(selectedRegions, infoBoxContinents);
           drawRegionalGraph(selectedRegions, slider.node().value, tooltip);
       } 
-      if(!selectedCountryCode && !selectedCountryName && !selectedReligionDistribution && !selectedRegions) {
+      if(!selectedCountryCode && !selectedCountryDisplayName && !selectedReligionDistribution && !selectedRegions) {
         console.warn("NO COUNTRY SELECTED, SKIPPING GRAPH AND INFOBOX UPDATE");
       }
     });
@@ -246,7 +251,8 @@ function processClickNationalEvent(event, d, tooltip, resetBtnCountries, zoomGro
   const countryCode = getCountryCode(countryName, year);
   const displayName = getDisplayName(countryName, year);
   selectedCountryCode = countryCode;
-  selectedCountryName = displayName;
+  selectedCountryDisplayName = displayName;
+  selectedCountryName = countryName;
   zoomedIn = true;
   displayNationalData(countryCode, displayName);
   drawGraph(countryCode, year, tooltip);
@@ -258,7 +264,7 @@ function resetBtn(zoomGroup, resetBtnCountries, infoBoxCountries) {
   resetBtnCountries.style("display", "none");
   infoBoxCountries.text("Select a country");
   selectedCountryCode = null;
-  selectedCountryName = null;
+  selectedCountryDisplayName = null;
   zoomedIn = false;
 }
 
