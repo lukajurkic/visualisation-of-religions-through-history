@@ -51,7 +51,7 @@ let dataDisplayed = false;
   const container = d3.select(".container");
 
   /*==================================================
-    Size calculating
+    Size calculating and setting
     ==================================================
   */
   const height = window.innerHeight * 0.6;
@@ -183,12 +183,15 @@ let dataDisplayed = false;
       if (selectedCountryCode && selectedCountryName) {
         drawGraph(selectedCountryCode, year, tooltip);
         displayNationalData(selectedCountryCode, selectedCountryName, year);
-      } else if(selectedReligionDistribution) {
-          updateCountryColors(nationalData, selectedReligionDistribution, slider.node().value);
-      } else if(selectedRegions) {
+      }
+      if(selectedReligionDistribution) {
+          updateCountryColors(nationalData, selectedReligionDistribution, slider.node().value, tooltip);
+      } 
+      if(selectedRegions) {
           displayRegionalData(selectedRegions, infoBoxContinents);
           drawRegionalGraph(selectedRegions, slider.node().value, tooltip);
-      } else{
+      } 
+      if(!selectedCountryCode && !selectedCountryName && !selectedReligionDistribution && !selectedRegions) {
         console.warn("NO COUNTRY SELECTED, SKIPPING GRAPH AND INFOBOX UPDATE");
       }
     });
